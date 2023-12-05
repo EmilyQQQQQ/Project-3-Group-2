@@ -7,11 +7,11 @@ app = Flask(__name__, template_folder='templates')
 @app.route("/")
 def homepage():
     message = "Test"
-    return render_template('homepage.html')
+    return render_template('homepage-Emily.html')
 
-@app.route("/historical.html")
+@app.route("/historical-Emily.html")
 def historical():
-    return render_template("historical.html")
+    return render_template("historical-Emily.html")
 
 @app.route("/getData")
 def get_data():

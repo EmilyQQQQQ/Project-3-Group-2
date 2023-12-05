@@ -7,7 +7,7 @@ const fetchDataButton = document.getElementById("fetchDataButton");
 fetchDataButton.addEventListener("click", () => {
     const selectedMagnitude = magnitudeDropdown.value;
 
-    const url = `http://127.0.0.1:5000/getLatestEarthquakes?magnitude=${selectedMagnitude}&time_period=7`;
+    const url = "/historical-Emily.html/getLatestEarthquakes?magnitude=" + selectedMagnitude + "&time_period=7";
 
     // Fetch data from the Flask server
     fetch(url)
