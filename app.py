@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask import render_template 
 from flask import Markup
 from pymongo import MongoClient
+import json
 
 
 #################################################
@@ -18,15 +19,21 @@ def homepage():
 @app.route("/historical.html")
 def historical():
 
+    return render_template("historical.html")
+
+@app.route("/getData")
+def getData():
+
     mongo = MongoClient(port=27017)
     db = mongo['earthquakes']
     query = {}
-    fields = {'_id': False}
+    fields = {'_id': 0}
 
-    earthquakes = db.hist_quakes.find(query, fields)
-    earthquakes_json = jsonify(list(earthquakes))
-    return render_template('historical.html', earthquake_list = earthquakes_json) 
+    earthquakes = db.hist_quakes.find(query, fields).limit(3)
+    earthquakes = list(earthquakes)
+
+    return earthquakes
     
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
