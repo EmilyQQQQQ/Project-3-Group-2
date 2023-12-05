@@ -8,12 +8,22 @@
 </head>
 <body>
     <div>
-        <!-- Add a dropdown with id "magnitudeDropdown" -->
+        <!-- Updated dropdown with id "magnitudeDropdown" -->
         <label for="magnitudeDropdown">Select Magnitude:</label>
         <select id="magnitudeDropdown">
+            <option value="1">Magnitude 1+</option>
             <option value="2.5">Magnitude 2.5+</option>
-            <option value="4.0">Magnitude 4.0+</option>
-            <!-- Add more options as needed -->
+            <option value="4.5">Magnitude 4.5+</option>
+            <option value="all">All Magnitudes</option>
+        </select>
+        
+        <!-- Updated dropdown with id "timePeriodDropdown" -->
+        <label for="timePeriodDropdown">Select Time Period:</label>
+        <select id="timePeriodDropdown">
+            <option value="hour">Past Hour</option>
+            <option value="day">Past Day</option>
+            <option value="7">Past 7 Days</option>
+            <option value="30">Past 30 Days</option>
         </select>
         
         <!-- Add a button with id "fetchDataButton" -->
