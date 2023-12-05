@@ -1,0 +1,1 @@
+mongoimport --type json -d earthquakes -c hist_quakes --drop --jsonArray significant-earthquake-database.json
