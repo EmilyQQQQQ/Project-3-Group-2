@@ -1,29 +1,20 @@
 from flask import Flask, render_template, jsonify, request
-from flask import Markup
 from pymongo import MongoClient
-import json
 import requests
 
-
-#################################################
-# Flask Setup
-#################################################
 app = Flask(__name__, template_folder='templates')
 
 @app.route("/")
 def homepage():
     message = "Test"
-    return render_template('homepage.html') 
-
+    return render_template('homepage.html')
 
 @app.route("/historical.html")
 def historical():
-
     return render_template("historical.html")
 
 @app.route("/getData")
-def getData():
-
+def get_data():
     mongo = MongoClient(port=27017)
     db = mongo['earthquakes']
     query = {}
@@ -32,13 +23,15 @@ def getData():
     earthquakes = db.hist_quakes.find(query, fields).limit(3)
     earthquakes = list(earthquakes)
 
-    return earthquakes
-    
+    return jsonify(earthquakes)
 
 @app.route("/getLatestEarthquakes", methods=["GET"])
 def get_latest_earthquakes():
     magnitude = request.args.get("magnitude", type=float)
     time_period = request.args.get("time_period", type=int)
+
+    if magnitude is None or time_period is None:
+        return jsonify({"error": "Invalid input. Please provide magnitude and time_period parameters."}), 400
 
     usgs_api_url = "https://earthquake.usgs.gov/fdsnws/event/1/query"
     params = {
@@ -46,8 +39,12 @@ def get_latest_earthquakes():
         "minmagnitude": magnitude,
         "starttime": f"-{time_period}d",
     }
-    response = requests.get(usgs_api_url, params=params)
-    data = response.json()
+    try:
+        response = requests.get(usgs_api_url, params=params)
+        response.raise_for_status()
+        data = response.json()
+    except requests.RequestException as e:
+        return jsonify({"error": f"Error fetching data from USGS API: {str(e)}"}), 500
 
     earthquakes = [
         {
@@ -58,8 +55,7 @@ def get_latest_earthquakes():
         for feature in data["features"]
     ]
 
-    return earthquakes
-
+    return jsonify(earthquakes)
 
 if __name__ == "__main__":
     app.run(debug=False)
