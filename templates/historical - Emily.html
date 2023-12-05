@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Welcome to the Earthquake Portal</title>
+</head>
+<body>
+    <div>
+        <!-- Add a dropdown with id "magnitudeDropdown" -->
+        <label for="magnitudeDropdown">Select Magnitude:</label>
+        <select id="magnitudeDropdown">
+            <option value="2.5">Magnitude 2.5+</option>
+            <option value="4.0">Magnitude 4.0+</option>
+            <!-- Add more options as needed -->
+        </select>
+        
+        <!-- Add a button with id "fetchDataButton" -->
+        <button id="fetchDataButton">Fetch Earthquakes</button>
+    </div>
+
+    <div id="content">
+        <!-- The fetched earthquake data will be displayed here -->
+    </div>
+
+    <script type="text/javascript" src="../static/js/historical.js"></script>
+</body>
+</html>
