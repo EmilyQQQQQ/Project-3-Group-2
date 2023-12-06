@@ -28,38 +28,51 @@
             </nav>
         </header>
 
-        <!-- Mahsa -->
-        <div id="content">
-              <div class="row">
-                <div class="col-md-2">
-                    <div class="well">
-                        <nav>
-                          <ul>
-                              <li><button onclick="capturePage()">Screen Capture</button> </li>
-                          </ul>
-                      </nav>
-                      </div>
-                  <div id="map"></div>
-                </div>
-                <div class="col-md-5">
-                  <h5>Country:</h5>
-                                <select id="selDataset" onchange="optionChanged(this.value)"></select>
-                  <div id="hbar"></div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div id="bar"></div>
-                </div>
-              </div>
-        </div>
 
-          <!-- Capture page -->
-        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    
-        <script src="https://d3js.org/d3.v7.min.js"></script>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <!-- Mahsa -->
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1">
+                <div class="well">
+                    <h5>Country:</h5>
+                    <select id="selDataset" onchange="optionChanged(this.value)"></select>
+
+                    <button onclick="capturePage()">Screen Capture</button>
+                  </div>
+              <div id="map"></div>
+            </div>
+            <div class="col-md-5">
+              <div id="hbar"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div id="bar"></div>
+            </div>
+          </div>
+    </div>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin="" />
+
+    <!-- Our CSS -->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+    <!-- Capture page -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""></script>
+    <!-- D3 JavaScript -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Our JavaScript -->
+    <script type="text/javascript" src="../static/js/config.js"></script>
+    <!-- Mahsa -->
     
     <script type="text/javascript" src="../static/js/historical.js"></script>
 
