@@ -1,0 +1,15 @@
+1. Work on CSS for pages
+2. Homepage Content
+3. Latest connection to USGS API
+4. Latest Map (leaflet markers)
+5. Latest Top 10
+6. Latest News Ticker Webscraping (ABC site) + search for new JS library
+7. Historical Work on Dropdowns (from/to mag, from/to date, country)
+8. Code to fetch from pyMongo
+9. Historical Map (markers)
+10. Historical Top 10
+11. Historical barchart
+12. Comparison (dropdowns - 2 sets)
+13. Comparison Code to fetch from pyMongo (2 selects)
+14. Comparison barcharts (magnitude + deaths)
+15. Comparison Top 10
