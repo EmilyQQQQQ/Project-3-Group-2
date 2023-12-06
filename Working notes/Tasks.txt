@@ -1,5 +1,5 @@
-1. Work on CSS for pages
-2. Homepage Content
+1. Work on CSS for pages (Jesus)
+2. Homepage Content (Jesus)
 3. Latest connection to USGS API
 4. Latest Map (leaflet markers)
 5. Latest Top 10

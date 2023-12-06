@@ -27,6 +27,12 @@ def latest():
 
     return render_template("latest.html")
 
+
+@app.route("/comparison.html")
+def comparison():
+
+    return render_template("comparison.html")
+
 @app.route("/getData")
 def getData():
 
