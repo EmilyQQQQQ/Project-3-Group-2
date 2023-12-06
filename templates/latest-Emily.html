@@ -10,8 +10,8 @@
 <body>
     <div class="row">
         <div class="col-md-12 jumbotron text-center">
-          <h1>Historical Earthquakes</h1>
-          <p>Use the Dropdowns to find out about historical earthquakes</p>
+          <h1>Latest Earthquakes</h1>
+          <p>Use the Dropdowns to find out about recent earthquakes</p>
         </div>
       </div>
     <div>
@@ -27,18 +27,12 @@
         <!-- Updated dropdown with id "timePeriodDropdown" -->
         <label for="timePeriodDropdown">Select Time Period:</label>
         <select id="timePeriodDropdown">
-            <option value="year">Past Year</option>
-            <option value="2">Past 2 Year</option>
-            <option value="5">Past 5 Year</option>
-            <option value="10">Past 10 Year</option>
+            <option value="hour">Past Hour</option>
+            <option value="day">Past Day</option>
+            <option value="7">Past 7 Days</option>
+            <option value="30">Past 30 Days</option>
         </select>
-
-        <!-- Dropdown for countries with id "countryDropdown" -->
-        <label for="countryDropdown">Select Country:</label>
-        <select id="countryDropdown">
-            <!-- JavaScript will populate the options dynamically -->
-        </select>
-
+        
         <!-- Add a button with id "fetchDataButton" -->
         <button id="fetchDataButton">Fetch Earthquakes</button>
     </div>
@@ -47,6 +41,6 @@
         <!-- The fetched earthquake data will be displayed here -->
     </div>
 
-    <script type="text/javascript" src="../static/js/historical-Emily.js"></script>
+    <script type="text/javascript" src="../static/js/latest.js"></script>
 </body>
 </html>

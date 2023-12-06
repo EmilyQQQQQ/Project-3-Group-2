@@ -1,7 +1,8 @@
-// Assuming you have dropdown elements in your HTML with id "magnitudeDropdown", "timePeriodDropdown", and "countryDropdown"
+// Assuming you have a dropdown element in your HTML with id "magnitudeDropdown"
 const magnitudeDropdown = document.getElementById("magnitudeDropdown");
+
+// Assuming you have a dropdown element in your HTML with id "timePeriodDropdown"
 const timePeriodDropdown = document.getElementById("timePeriodDropdown");
-const countryDropdown = document.getElementById("countryDropdown");
 
 // Assuming you have a button in your HTML with id "fetchDataButton"
 const fetchDataButton = document.getElementById("fetchDataButton");
@@ -9,9 +10,8 @@ const fetchDataButton = document.getElementById("fetchDataButton");
 fetchDataButton.addEventListener("click", () => {
     const selectedMagnitude = magnitudeDropdown.value;
     const selectedTimePeriod = timePeriodDropdown.value;
-    const selectedCountry = countryDropdown.value;
 
-    const url = `/getHistoricalEarthquakes?magnitude=${selectedMagnitude}&time_period=${selectedTimePeriod}&country=${selectedCountry}`;
+    const url = `/getLatestEarthquakes?magnitude=${selectedMagnitude}&time_period=${selectedTimePeriod}`;
 
     // Fetch data from the Flask server
     fetch(url)

@@ -9,6 +9,19 @@ def homepage():
     message = "Test"
     return render_template('homepage-Emily.html')
 
+
+@app.route("/latest-Emily.html")
+def latest():
+
+    return render_template("latest-Emily.html")
+
+
+@app.route("/comparison-Emily.html")
+def comparison():
+
+    return render_template("comparison-Emily.html")
+
+
 @app.route("/historical-Emily.html")
 def historical():
     return render_template("historical-Emily.html")
