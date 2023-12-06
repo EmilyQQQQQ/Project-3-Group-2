@@ -11,21 +11,25 @@ fetchDataButton.addEventListener("click", () => {
     const selectedMagnitude = magnitudeDropdown.value;
     const selectedTimePeriod = timePeriodDropdown.value;
 
-    const url = `/getLatestEarthquakes?magnitude=${selectedMagnitude}&time_period=${selectedTimePeriod}`;
+    // Construct the URL for the USGS API
+    const usgsApiUrl = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/${selectedMagnitude}_${selectedTimePeriod}.geojson`;
 
-    // Fetch data from the Flask server
-    fetch(url)
+    // Fetch data from the USGS API
+    fetch(usgsApiUrl)
         .then(response => response.json())
         .then(data => {
             // Process the data
             console.log(data);
 
-            // Assuming there is a 'location' property in each earthquake object
+            // Assuming there is a 'features' property containing earthquake data
+            const earthquakes = data.features;
+
+            // Assuming there is a 'properties' property in each earthquake object with a 'place' field
             const contentDiv = document.getElementById("content");
             contentDiv.innerHTML = ""; // Clear previous content
 
-            data.forEach(earthquake => {
-                const location = earthquake.location;
+            earthquakes.forEach(earthquake => {
+                const location = earthquake.properties.place;
 
                 const paragraph = document.createElement("p");
                 paragraph.textContent = `Location: ${location}`;
