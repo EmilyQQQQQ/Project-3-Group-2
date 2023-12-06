@@ -21,6 +21,12 @@ def historical():
 
     return render_template("historical.html")
 
+
+@app.route("/latest.html")
+def latest():
+
+    return render_template("latest.html")
+
 @app.route("/getData")
 def getData():
 

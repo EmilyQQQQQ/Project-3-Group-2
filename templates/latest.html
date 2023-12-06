@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Welcome to the Earthquake Portal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
+    <div class="row">
+        <div class="col-md-12 jumbotron text-center">
+          <h1>Latest Earthquakes</h1>
+          <p>Use the Dropdowns to find out about recent earthquakes</p>
+        </div>
+      </div>
     <div>
         <!-- Updated dropdown with id "magnitudeDropdown" -->
         <label for="magnitudeDropdown">Select Magnitude:</label>
@@ -34,6 +41,6 @@
         <!-- The fetched earthquake data will be displayed here -->
     </div>
 
-    <script type="text/javascript" src="../static/js/historical-Emily.js"></script>
+    <script type="text/javascript" src="../static/js/latest.js"></script>
 </body>
 </html>
