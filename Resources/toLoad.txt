@@ -1,1 +1,5 @@
+1. Run the following command on shell:
 mongoimport --type json -d earthquakes -c hist_quakes --drop --jsonArray significant-earthquake-database.json
+
+2. Run the Jupyter Notebook file:
+cleanData.ipynb
