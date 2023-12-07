@@ -51,6 +51,8 @@
         
         <!-- Add a button with id "fetchDataButton" -->
         <button id="fetchDataButton">Fetch Earthquakes</button>
+        <br>
+        <button onclick="capturePage()">Screen Capture</button>
     </div>
 
     <div id="content">
@@ -60,8 +62,16 @@
     <!-- Map -->
     <div class="container">
         <div id="map"></div>
-        <button onclick="capturePage()">Screen Capture</button>
+
+        <div class="col-md-5">
+            <div id="hbar"></div>
+          </div>
     </div>
+    <!-- Capture page -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!-- Include Plotly library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
