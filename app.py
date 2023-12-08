@@ -108,15 +108,15 @@ def getData():
 
     #Prepare query critiera based on arguments
     query = {}
-    if minMagnitude is None or minMagnitude.strip() == "":
+    if minMagnitude is None:
         minMagnitude = 1
-    if maxMagnitude is None or maxMagnitude.strip() == "":
+    if maxMagnitude is None:
         maxMagnitude = 9.5
     query['eq_primary'] = {"$gte": minMagnitude, "$lte": maxMagnitude}
 
-    if minYear is None or minYear.strip() == "":
+    if minYear is None:
         minYear = -2150
-    if maxYear is None or maxYear.strip() == "":
+    if maxYear is None:
         maxYear = 2020
     query['year'] = {"$gte": minYear, "$lte": maxYear}
 
