@@ -34,12 +34,15 @@
         <div class="container">
           <div class="row">
             <div class="col-md-1">
+              
                 <div class="well">
-                    <h5>Country:</h5>
-                    <select id="selDataset" onchange="optionChanged(this.value)"></select>
+                  <h5>Country:</h5>
+                  <!-- Updated dropdown with id "countryDropdown" -->
+                  <select id="countryDropdown" onchange="optionChanged(this.value)"></select>
 
-                    <button onclick="capturePage()">Screen Capture</button>
-                  </div>
+                  <button onclick="capturePage()">Screen Capture</button>
+              </div>
+
               <div id="map"></div>
             </div>
             <div class="col-md-5">
