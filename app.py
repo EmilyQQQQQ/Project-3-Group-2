@@ -58,6 +58,22 @@ def getNews():
 
     return newslist
 
+@app.route("/getCountries")
+def getCountries():
+
+    
+    #Specify Mongo connection
+    mongo = MongoClient(port=27017)
+    db = mongo['earthquakes']
+
+    query = {}
+    fields = {'country': 1, '_id': 0}
+    sort = [('country', 1)]
+
+    countries = db.hist_quakes.find(query, fields).sort(sort).distinct('country')
+
+    return countries
+
 @app.route("/getData")
 def getData():
     
@@ -67,6 +83,7 @@ def getData():
     minYear = request.args.get("minYear", type=int)
     maxYear = request.args.get("maxYear", type=int)
     country = request.args.get("country", type=str)
+    country = request.args.get("id", type=str)
 
 
     #Specify Mongo connection
@@ -91,12 +108,15 @@ def getData():
     if country:
         country = country.upper()
         query['country'] = country
+
+    if id:
+        query['i_d'] = id
     
     #Sort by magniude desc, date desc
     sort = [('eq_primary', -1), ('year', -1), ('month', -1), ('day', -1)]
 
     #Get data from the DB
-    earthquakes = db.hist_quakes.find(query, fields).sort(sort).limit(500)
+    earthquakes = db.hist_quakes.find(query, fields).sort(sort)
     earthquakes = list(earthquakes)
 
     #Return list of earthquakes

@@ -23,10 +23,29 @@
 // The URL for the data source
 const url = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json';
 
+// API endpoint to get the list of countries
+const countriesUrl = 'http://127.0.0.1:5000/getCountries';
+
 // Fetching data using D3 and logging it to the console
 d3.json(url).then(function(data){
   console.log(data);
 });
+
+// Initialization function that populates dropdown, calls other chart functions, and initializes demographic info
+function init(){
+  // Fetching countries data
+  d3.json(countriesUrl).then(function(countries) {
+    // Extracting country names from data
+    let dropdownMenu = d3.select("#countryDropdown");
+
+    // Populating dropdown menu with country names
+    countries.forEach((country) => dropdownMenu.append('option').text(country));
+    
+    // Calling chart functions with the initial sample ID
+    // Assuming initialSampleId is set elsewhere in your code
+    BarChart(initialSampleId, data);
+  });
+}
 
 // Initialization function that populates dropdown, calls other chart functions, and initializes demographic info
 function init(){
