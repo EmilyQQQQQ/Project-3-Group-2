@@ -108,26 +108,22 @@ def getData():
 
     #Prepare query critiera based on arguments
     query = {}
-    if minMagnitude is None:
+    if minMagnitude is None or minMagnitude.strip() == "":
         minMagnitude = 1
-    if maxMagnitude is None:
+    if maxMagnitude is None or maxMagnitude.strip() == "":
         maxMagnitude = 9.5
     query['eq_primary'] = {"$gte": minMagnitude, "$lte": maxMagnitude}
 
-    if minYear is None:
+    if minYear is None or minYear.strip() == "":
         minYear = -2150
-    if maxYear is None:
+    if maxYear is None or maxYear.strip() == "":
         maxYear = 2020
     query['year'] = {"$gte": minYear, "$lte": maxYear}
 
-    if country:
-        country = country.upper()
-        if (country == "ALL"):
-            country = country
-        else:
-            query['country'] = country
+    if country and country!= "ALL":
+        query['country'] = country
 
-    if id:
+    if id and id.strip() != "":
         query['i_d'] = id
     
     #Sort by magniude desc, date desc
