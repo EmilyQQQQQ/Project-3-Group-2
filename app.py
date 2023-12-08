@@ -49,12 +49,20 @@ def getNews():
     topics = soup.find("section", class_="Topics")
 
     articles = topics.find_all("div", class_="ContentRoll__Headline")
-
+    
     for article in articles[0:15]:
         title = article.find("a", class_="AnchorLink")["data-track-ctatext"]
         link = article.find("a", class_="AnchorLink")["href"]
 
-        newslist.append("<a href=\"" + link + "\">"+title+"</a>")
+        newslist.append("<a href=\"" + link + "\"><b>"+title+"</b></a>")
+
+        #newsDict = {"Title": title,
+        #            "link": link}
+        
+        #newslist.append(newsDict)
+        
+        #newslist.append(title)
+
 
     return newslist
 
