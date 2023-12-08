@@ -93,3 +93,5 @@ fetch(url)
     // Handle errors
     console.error('Fetch error:', error);
   });
+
+  init();
