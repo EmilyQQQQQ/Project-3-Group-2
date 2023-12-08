@@ -85,13 +85,14 @@ def getCountries():
 @app.route("/getData")
 def getData():
     
+
     #Get Arguments
     minMagnitude = request.args.get("minMagnitude", type=int)
     maxMagnitude = request.args.get("maxMagnitude", type=int)
     minYear = request.args.get("minYear", type=int)
     maxYear = request.args.get("maxYear", type=int)
     country = request.args.get("country", type=str)
-    country = request.args.get("id", type=str)
+    id = request.args.get("id", type=str)
 
 
     #Specify Mongo connection
@@ -126,6 +127,7 @@ def getData():
     #Get data from the DB
     earthquakes = db.hist_quakes.find(query, fields).sort(sort)
     earthquakes = list(earthquakes)
+
 
     #Return list of earthquakes
     return earthquakes
