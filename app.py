@@ -93,8 +93,8 @@ def getData():
     
 
     #Get Arguments
-    minMagnitude = request.args.get("minMagnitude", type=int)
-    maxMagnitude = request.args.get("maxMagnitude", type=int)
+    minMagnitude = request.args.get("minMagnitude", type=float)
+    maxMagnitude = request.args.get("maxMagnitude", type=float)
     minYear = request.args.get("minYear", type=int)
     maxYear = request.args.get("maxYear", type=int)
     country = request.args.get("country", type=str)
