@@ -60,6 +60,7 @@ fetchDataButton.addEventListener("click", () => {
 
 function BarChart(data) {
     // Sort the data based on magnitude in descending order
+
     data.sort((a, b) => b.properties.mag - a.properties.mag);
 
     // Take the top 10 earthquakes
@@ -69,17 +70,29 @@ function BarChart(data) {
     let magnitudes = top10Data.map(entry => entry.properties.mag);
     let depths = top10Data.map(entry => entry.geometry.coordinates[2]);
 
+    locations.reverse();
+    magnitudes.reverse();
+    depths.reverse();
+
+    for (i=0; i<locations.length; i++){
+        rank = locations.length - i
+        parts = locations[i].split(",")
+        lastpart = parts[parts.length - 1]
+        locations[i] = rank.toString() + ". " +  lastpart
+    }
+
     let trace1 = {
-        y: locations.reverse(),
-        x: magnitudes.reverse(),
-        text: depths.reverse(),
+        x: magnitudes,
+        y: locations,
+        text: depths,
         type: 'bar',
         orientation: 'h'
     };
 
     let layout1 = {
         title: "Top 10 Earthquakes",
-        hovermode: "closest"
+        hovermode: "closest",
+        margin: {t:0,r:0,b:0,l:200}
     };
 
     // Check if the chart already exists
@@ -87,6 +100,7 @@ function BarChart(data) {
         // If it doesn't exist, create a new chart
         Plotly.newPlot('hbar', [trace1], layout1);
         chartExists = true; // Set the flag to true
+
     } else {
         // If it exists, update the existing chart
         Plotly.react('hbar', [trace1], layout1);
@@ -98,7 +112,7 @@ function BarChart(data) {
     let boundariesUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
 
     function markerSize(magnitude) {
-        return magnitude * 20000;
+        return magnitude * 25000;
     }
 
     function chooseColor(depth) {
@@ -180,9 +194,9 @@ function BarChart(data) {
   
       // Create our map, giving it the streetmap and earthquakes layers to display on load.
       myMap = L.map("map", {
-          center: [37.09, -95.71],
-          zoom: 5,
-          layers: [satellite, earthquakes, tectonics]
+          center: [30, 0],
+          zoom: 2,
+          layers: [grayscale, earthquakes, tectonics]
       });
   
       // Set up the legend.
