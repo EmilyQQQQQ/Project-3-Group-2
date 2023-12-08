@@ -17,15 +17,13 @@
     </head>
     <body>
         <header>
-            <h1>Historical Earthquake Activity</h1>
-            <p>Search earthquakes from the past, exploring their magnitude, location, and damage.</p>
+            <h1>Compare Earthquake Histories</h1>
+            <p>Compare the earthquakes that have shaped different regions of the world.</p>
             <nav>
                 <ul>
                     <li><a href="latest.html">Latest Earthquakes Exploration</a></li>
                     <li><a href="historical.html">Historical Earthquake Activity</a></li>
-                    <li><a href="comparison.html">Comparison Tool</a></li>
-                    <li><a href="homepage.html">Home</a></li>
-
+                    <li><a href="/">Home</a></li>
                 </ul>
             </nav>
         </header>
@@ -34,13 +32,51 @@
         <div class="row">
             <div class="col-md-2">
               <div class="well">
-                <h5>Latest Earthquake:</h5>
-                <select id="selDataset" onchange="optionChanged(this.value)">
-                </select>
+                <h2>Earthquake Data Filters</h2>
+                <h5>Country:</h5>
+                  <!-- Updated dropdown with id "countryDropdown" -->
+                  <select id="countryDropdown"></select>
               </div>
+                <!-- Box to input a year -->
+                
+                <form id="getDataForm">
+                    <label for="minYear">Min Year:</label>
+                        <input type="text" id="minYear" name="minYear" placeholder="Enter Min Year">
+
+                        <label for="maxYear">Max Year:</label>
+                        <input type="text" id="maxYear" name="maxYear" placeholder="Enter Max Year">
+
+                        <label for="fromMagnitude">From Magnitude:</label>
+                        <input type="text" id="fromMagnitude" name="fromMagnitude" placeholder="Enter From Magnitude">
+                
+                        <label for="toMagnitude">To Magnitude:</label>
+                        <input type="text" id="toMagnitude" name="toMagnitude" placeholder="Enter To Magnitude">
+                
+                        <label for="id">ID:</label>
+                        <input type="text" id="id" name="id" placeholder="Enter ID">
+
+                         <button type="button" onclick="getData()">Get Data</button>
+                 </form>
+                 <div id="result"></div>
+            </div>
+        </div>
+    </section>
 
 
-        <!-- <div>
+    <!-- Capture page, defining d3 -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="text/javascript" src="../static/js/comparison.js"></script>
+
+    <footer>
+        <p>&copy; 2023 UofT Data Visualization Bootcamp - Explore Earthquakes Project. Group 2 Project 3 All rights reserved.</p>
+    </footer>
+    
+</body>
+</html>
+
+
+
+<!-- <div>
             <h2>Latest Earthquakes</h2> -->
             <!-- Updated dropdowns with id "latestMagnitudeDropdown", "latestTimePeriodDropdown", and "latestCountryDropdown" -->
             <!-- <label for="latestMagnitudeDropdown">Select Magnitude:</label>
@@ -97,13 +133,3 @@
         <div id="content"> -->
             <!-- The fetched earthquake data will be displayed here -->
         <!-- </div> -->
-    
-        <script type="text/javascript" src="../static/js/comparison-Emily.js"></script>
-    </section>
-
-    <footer>
-        <p>&copy; 2023 UofT Data Visualization Bootcamp - Explore Earthquakes Project. Group 2 Project 3 All rights reserved.</p>
-    </footer>
-    
-</body>
-</html>
