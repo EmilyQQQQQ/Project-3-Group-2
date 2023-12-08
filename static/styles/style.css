@@ -45,9 +45,9 @@ footer {
   color: white;
   text-align: center;
   padding: 1em 0;
-  position: fixed;
+  position: static;
   bottom: 0;
-  width: 100%;
+  width: 100%
 }
 
 #content a {
