@@ -1,1 +1,0 @@
-const access_token = 'pk.eyJ1IjoibWFoc2EtMSIsImEiOiJjbHBzcnJlMmMwMHo2MmpwaGR0eGtvMWJqIn0.mspkfkwuFqmT3gLpZ-oYqw'
