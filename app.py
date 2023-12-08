@@ -80,7 +80,13 @@ def getCountries():
 
     countries = db.hist_quakes.find(query, fields).sort(sort).distinct('country')
 
-    return countries
+
+    final_countries = ["ALL"]
+
+    for country in countries:
+        final_countries.append(country)
+
+    return final_countries
 
 @app.route("/getData")
 def getData():
@@ -116,7 +122,10 @@ def getData():
 
     if country:
         country = country.upper()
-        query['country'] = country
+        if (country == "ALL"):
+            country = country
+        else:
+            query['country'] = country
 
     if id:
         query['i_d'] = id
