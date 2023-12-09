@@ -3,3 +3,6 @@ mongoimport --type json -d earthquakes -c hist_quakes --drop --jsonArray signifi
 
 2. Run the Jupyter Notebook file:
 cleanData.ipynb
+
+3. Run the following command on shell:
+python app.py -m http.server --bind 127.0.0.1 5000
