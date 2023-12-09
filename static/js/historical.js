@@ -74,10 +74,42 @@ function optionChanged(selectedCountry) {
     // Update the horizontal bar chart
     updateHorizontalBarChart(selectedCountry);
     createFeatures(selectedCountry);
+
+    // Zoom to the selected country if it has coordinates
+    zoomToSelectedCountry(selectedCountry);
   } else {
     console.error('Earthquake data is not available.');
   }
 }
+
+// Function to zoom to the selected country
+function zoomToSelectedCountry(selectedCountry) {
+  if (myMap && selectedCountry !== 'ALL') {
+    // Assuming you have coordinates available in your earthquakeData
+    let countryCoordinates = getCountryCoordinates(selectedCountry);
+
+    if (countryCoordinates) {
+      // Set the map's center to the selected country's coordinates and zoom in
+      myMap.setView(countryCoordinates, 5); // You can adjust the zoom level as needed
+    } else {
+      console.warn('Coordinates not available for the selected country:', selectedCountry);
+    }
+  }
+}
+
+// Function to get the coordinates of the selected country
+function getCountryCoordinates(selectedCountry) {
+  // Assuming you have a list of countries with corresponding coordinates in your earthquakeData
+  // Adjust this based on your actual data structure
+  let countryEntry = earthquakeData.find(entry => entry.country === selectedCountry);
+
+  if (countryEntry && countryEntry.coordinates) {
+    return [countryEntry.coordinates.lat, countryEntry.coordinates.lon];
+  } else {
+    return null;
+  }
+}
+
 
 
 // Define the function to update the horizontal bar chart
