@@ -1,3 +1,4 @@
+<!-- histirical html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,8 +35,20 @@
             <!-- Updated dropdown with id "countryDropdown" -->
             <select id="countryDropdown" onchange="optionChanged(this.value)"></select>
             <!-- Both "Fetch Earthquakes" and "Capture" buttons side by side -->
-            <button id="fetchDataButton" onclick="fetchEarthquakeData()">Fetch Earthquakes</button>
+            <from id="fetchDataButton">
+              <label for="minYear">Min Year:</label>
+              <input type="text" id="minYear" name="minYear" placeholder="Enter Min Year">
+              <label for="maxYear">Max Year:</label>
+              <input type="text" id="maxYear" name="maxYear" placeholder="Enter Max Year">
+              <label for="fromMagnitude">From Magnitude:</label>
+              <input type="text" id="fromMagnitude" name="fromMagnitude" placeholder="Enter From Magnitude">
+              <label for="toMagnitude">To Magnitude:</label>
+              <input type="text" id="toMagnitude" name="toMagnitude" placeholder="Enter To Magnitude">
+              <button type="button" onclick="fetchEarthquakeData()">Fetch Earthquakes</button>
+            </from>
             <button id="capturePageButton" onclick="capturePage()">Capture</button>
+            
+            <div id="result"></div>
           </div>
         </div>
       </div>

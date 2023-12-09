@@ -54,8 +54,15 @@ document.getElementById("capturePageButton").addEventListener("click", capturePa
 function optionChanged(selectedCountry) {
   // Check if earthquakeData is defined
   if (earthquakeData) {
-    // Filter the earthquake data based on the selected country
-    let filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
+    let filteredData;
+
+    // Check if the selected country is 'ALL'
+    if (selectedCountry === 'ALL') {
+      filteredData = earthquakeData;
+    } else {
+      // Filter the earthquake data based on the selected country
+      filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
+    }
 
     // Log the filtered data to the console for testing
     console.log("Filtered Data for", selectedCountry, ":", filteredData);
@@ -72,12 +79,20 @@ function optionChanged(selectedCountry) {
   }
 }
 
+
 // Define the function to update the horizontal bar chart
 function updateHorizontalBarChart(selectedCountry) {
   // Check if earthquakeData is defined
   if (earthquakeData) {
-    // Filter the earthquake data based on the selected country
-    let filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
+    let filteredData;
+
+    // Check if the selected country is 'ALL'
+    if (selectedCountry === 'ALL') {
+      filteredData = earthquakeData;
+    } else {
+      // Filter the earthquake data based on the selected country
+      filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
+    }
 
     // Sort the filtered data by magnitude in descending order
     let sortedData = filteredData.sort((a, b) => b.eq_primary - a.eq_primary);
@@ -141,8 +156,15 @@ function chooseColor(depth) {
 function createFeatures(selectedCountry) {
   // Check if earthquakeData is defined
   if (earthquakeData) {
-    // Filter the earthquake data based on the selected country
-    let filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
+    let filteredData;
+
+    // Check if the selected country is 'ALL'
+    if (selectedCountry === 'ALL') {
+      filteredData = earthquakeData;
+    } else {
+      // Filter the earthquake data based on the selected country
+      filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
+    }
 
     if (filteredData.length === 0) {
       console.warn('No earthquake data for the selected country.');
