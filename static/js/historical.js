@@ -1,6 +1,5 @@
 let earthquakeData; // Global variable to store earthquake data
 
-
 // Function to fetch earthquake data
 function fetchEarthquakeData(selectedCountry) {
   // Get the input values for minYear, maxYear, minMagnitude, maxMagnitude, and id
@@ -8,10 +7,10 @@ function fetchEarthquakeData(selectedCountry) {
   let maxYear = document.getElementById("maxYear").value;
   let minMagnitude = document.getElementById("fromMagnitude").value;
   let maxMagnitude = document.getElementById("toMagnitude").value;
-  let id = document.getElementById("id").value;
+
 
   // Construct the API request URL with the selectedCountry, minYear, maxYear, minMagnitude, maxMagnitude, and id parameters
-  let apiUrl = `http://127.0.0.1:5000/getData?country=${selectedCountry}&minYear=${minYear}&maxYear=${maxYear}&minMagnitude=${minMagnitude}&maxMagnitude=${maxMagnitude}&id=${id}`;
+  let apiUrl = `http://127.0.0.1:5000/getData?country=${selectedCountry}&minYear=${minYear}&maxYear=${maxYear}&minMagnitude=${minMagnitude}&maxMagnitude=${maxMagnitude}`;
 
   fetch(apiUrl)
     .then(response => response.json())
@@ -19,12 +18,19 @@ function fetchEarthquakeData(selectedCountry) {
       earthquakeData = data; // Set earthquakeData to the fetched data
       console.log(data);
 
-      // Update charts and features with the fetched data
-      updateHorizontalBarChart(selectedCountry);
-      updateVerticalBarChart(selectedCountry);
-      createFeatures(selectedCountry);
-      // Zoom to the selected country if it has coordinates
-      zoomToSelectedCountry(selectedCountry);
+      let contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = "";
+
+      if (earthquakeData.length === 0) {
+        contentDiv.textContent = "No earthquakes found for the specified criteria.";
+      } else {
+        // Update charts and features with the fetched data
+        updateHorizontalBarChart(selectedCountry);
+        updateVerticalBarChart(selectedCountry);
+        createFeatures(selectedCountry);
+        // Zoom to the selected country if it has coordinates
+        zoomToSelectedCountry(selectedCountry);
+      }
     })
     .catch(error => {
       console.error('Error fetching earthquake data:', error);
@@ -32,8 +38,9 @@ function fetchEarthquakeData(selectedCountry) {
 }
 
 
+
 // Call the function to fetch earthquake data
-fetchEarthquakeData();
+// fetchEarthquakeData();
 
 // Function to create a custom marker icon based on magnitude
 function createCustomIcon(magnitude) {
@@ -188,7 +195,7 @@ function updateVerticalBarChart(selectedCountry) {
       text: sortedData.map(entry => `ID: ${entry.i_d}<br>Depth: ${entry.focal_depth}<br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description}<br>Deaths: ${entry.deaths}<br>Injuries: ${entry.injuries}`),
       hoverinfo: 'text',
       marker: {
-        color: 'rgba(41, 152, 35, 0.8)' // Set the bar color to green with alpha = 0.5
+        color: 'green' // Set the bar color to green with alpha = 0.5
       }
     }];
     
@@ -268,15 +275,7 @@ function updateHorizontalBarChart(selectedCountry) {
 }
 
 
-// Define the function to capture the page
-function capturePage() {
-  html2canvas(document.body).then(function (canvas) {
-    let link = document.createElement('a');
-    link.href = canvas.toDataURL('image/png');
-    link.download = 'page_screenshot.png';
-    link.click();
-  });
-}
+
 
 // Store our API endpoint as queryUrl.
 let boundariesUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
@@ -398,7 +397,7 @@ function createMap(earthquakes) {
     style: 'mapbox/light-v11',
     access_token: access_token
   });
-  let markers = L.markerClusterGroup();
+
 
   // Create layer for tectonic plates.
   let tectonics = L.layerGroup();
@@ -438,17 +437,14 @@ function createMap(earthquakes) {
   }).addTo(myMap);
 }
 
-
+// Define the function to capture the page
 function capturePage() {
-  // Capture the entire page
   html2canvas(document.body).then(function (canvas) {
-    // Create a temporary link and trigger a click to download the image
-    var link = document.createElement('a');
+    let link = document.createElement('a');
     link.href = canvas.toDataURL('image/png');
     link.download = 'page_screenshot.png';
     link.click();
   });
 }
-
 // Call init function on page load
 document.addEventListener("DOMContentLoaded", init);
