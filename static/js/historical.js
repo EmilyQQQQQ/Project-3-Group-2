@@ -1,6 +1,5 @@
 let earthquakeData; // Global variable to store earthquake data
-let myMap;
-let selectedChartType = 'deaths';
+
 
 // Function to fetch earthquake data
 function fetchEarthquakeData(selectedCountry) {
@@ -24,6 +23,8 @@ function fetchEarthquakeData(selectedCountry) {
       updateHorizontalBarChart(selectedCountry);
       updateVerticalBarChart(selectedCountry);
       createFeatures(selectedCountry);
+      // Zoom to the selected country if it has coordinates
+      zoomToSelectedCountry(selectedCountry);
     })
     .catch(error => {
       console.error('Error fetching earthquake data:', error);
@@ -85,17 +86,14 @@ function optionChanged(selectedCountry) {
     // Log the filtered data to the console for testing
     console.log("Filtered Data for", selectedCountry, ":", filteredData);
 
-    // Now you can perform further actions with the filtered data
-    // For example, you can update a chart or display information on the webpage
-    // This is where you can integrate your visualization code
-
+    // Further actions with the filtered data
     // Update the horizontal bar chart
     updateHorizontalBarChart(selectedCountry);
     updateVerticalBarChart(selectedCountry);
     createFeatures(selectedCountry);
 
-    // Zoom to the selected country if it has coordinates
-    zoomToSelectedCountry(selectedCountry);
+    // // Zoom to the selected country if it has coordinates
+    // zoomToSelectedCountry(selectedCountry);
   } else {
     console.error('Earthquake data is not available.');
   }
@@ -116,6 +114,7 @@ function zoomToSelectedCountry(selectedCountry) {
   }
 }
 
+
 // Function to get the coordinates of the selected country
 function getCountryCoordinates(selectedCountry) {
   // Assuming you have a list of countries with corresponding coordinates in your earthquakeData
@@ -131,6 +130,7 @@ function getCountryCoordinates(selectedCountry) {
 
 // Add a variable to keep track of the currently displayed data on the vertical bar chart
 let isShowingDeaths = true;
+let selectedChartType = 'deaths';
 
 // Function to toggle between death counts and magnitudes
 function toggleChart(selectedCountry) {
@@ -356,6 +356,8 @@ function createFeatures(selectedCountry) {
 
 
 
+let myMap; // Declare myMap globally
+
 function createMap(earthquakes) {
   // Check if the map already exists
   if (myMap) {
@@ -438,6 +440,7 @@ function createMap(earthquakes) {
     collapsed: false
   }).addTo(myMap);
 }
+
 
 function capturePage() {
   // Capture the entire page
