@@ -76,7 +76,7 @@ document.getElementById("fetchDataButton").addEventListener("click", function ()
   createFeatures(selectedCountry);
 });
 
-// Event listener for the "Capture" button
+// Event listener for the "Screenshot" button
 document.getElementById("capturePageButton").addEventListener("click", capturePage);
 
 // Define the function for dropdown change
@@ -186,7 +186,10 @@ function updateVerticalBarChart(selectedCountry) {
       x: x,
       y: y,
       text: sortedData.map(entry => `ID: ${entry.i_d}<br>Depth: ${entry.focal_depth}<br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description}<br>Deaths: ${entry.deaths}<br>Injuries: ${entry.injuries}`),
-      hoverinfo: 'text'
+      hoverinfo: 'text',
+      marker: {
+        color: 'rgba(41, 152, 35, 0.8)' // Set the bar color to green with alpha = 0.5
+      }
     }];
     
     let layout = {
@@ -209,7 +212,8 @@ function updateVerticalBarChart(selectedCountry) {
 
 
 
-// Define the function to update the horizontal bar chart
+
+// Update the horizontal bar chart based on the current state (deaths or magnitudes)
 function updateHorizontalBarChart(selectedCountry) {
   // Check if earthquakeData is defined
   if (earthquakeData) {
@@ -233,33 +237,36 @@ function updateHorizontalBarChart(selectedCountry) {
     let x = topTenData.map(entry => entry.eq_primary);
     let y = topTenData.map((entry, index) => `${index + 1}. ${entry.eq_primary}M in ${entry.country}`);
     let text = topTenData.map(entry => `ID: ${entry.i_d} <br>Depth: ${entry.focal_depth} <br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description} <br>Deaths: ${entry.deaths} <br>Injuries: ${entry.injuries}`);
+    // Set the bar color to green
 
-     let data = [{
+    let data = [{
       type: 'bar',
       x: x,
       y: y,
       orientation: 'h',
       text: text,
-      hoverinfo: 'text'
+      hoverinfo: 'text',
+      marker: {
+        color: 'rgba(0, 96, 255, 0.79)' // Set the bar color to green
+      }
     }];
-    
+
     let layout = {
       title: `Top Ten Earthquakes in ${selectedCountry} (Sorted by Magnitude)`,
-      margin: { t: 50, r: 50, b: 150, l: 200 }, 
-      height: 600, 
-      hoverlabel: { 
+      margin: { t: 50, r: 50, b: 150, l: 200 },
+      height: 600,
+      hoverlabel: {
         bgcolor: 'white',
-        font: { size: 12 } 
+        font: { size: 12 }
       }
     };
-    
-    Plotly.newPlot('hbar', data, layout);
 
     Plotly.newPlot('hbar', data, layout);
   } else {
     console.error('Earthquake data is not available.');
   }
 }
+
 
 // Define the function to capture the page
 function capturePage() {
