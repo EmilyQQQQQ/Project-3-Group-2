@@ -35,6 +35,16 @@ function fetchEarthquakeData(selectedCountry) {
 // Call the function to fetch earthquake data
 fetchEarthquakeData();
 
+// Function to create a custom marker icon based on magnitude
+function createCustomIcon(magnitude) {
+  return L.divIcon({
+    className: 'custom-marker',
+    html: `<div style="background-color: ${chooseColor(magnitude)};">${magnitude}</div>`,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+    popupAnchor: [0, -15]
+  });
+}
 // Initialization function
 function init() {
   const countriesUrl = 'http://127.0.0.1:5000/getCountries';
@@ -183,11 +193,11 @@ function updateVerticalBarChart(selectedCountry) {
       title: chartTitle,
       xaxis: { title: 'Date' },
       yaxis: isShowingDeaths ? { title: 'Number of Deaths' } : { title: 'Magnitude' },
-      margin: { t: 100, r: 100, b: 150, l: 100 }, // Adjusted margin to accommodate larger text
-      height: 600, // Increased chart height
-      hoverlabel: { // Adjusted hover label settings
+      margin: { t: 100, r: 100, b: 150, l: 100 }, 
+      height: 600, 
+      hoverlabel: { 
         bgcolor: 'white',
-        font: { size: 12 } // Adjust font size
+        font: { size: 12 } 
       }
     };
 
@@ -235,11 +245,11 @@ function updateHorizontalBarChart(selectedCountry) {
     
     let layout = {
       title: `Top Ten Earthquakes in ${selectedCountry} (Sorted by Magnitude)`,
-      margin: { t: 50, r: 50, b: 150, l: 200 }, // Adjusted margin to accommodate larger text
-      height: 600, // Increased chart height
-      hoverlabel: { // Adjusted hover label settings
+      margin: { t: 50, r: 50, b: 150, l: 200 }, 
+      height: 600, 
+      hoverlabel: { 
         bgcolor: 'white',
-        font: { size: 12 } // Adjust font size
+        font: { size: 12 } 
       }
     };
     
@@ -307,13 +317,13 @@ function createFeatures(selectedCountry) {
           depth: entry.focal_depth,
           damage_description: entry.damage_description,
           deaths: entry.deaths,
-          injuries: entry.injuries
+          injuries: entry.injuries,
         },
         geometry: {
           type: 'Point',
-          coordinates: [entry.coordinates.lon, entry.coordinates.lat] // Adjust these based on your data
-        }
-      }))
+          coordinates: [entry.coordinates.lon, entry.coordinates.lat], // Adjust these based on your data
+        },
+      })),
     };
 
     function onEachFeature(feature, layer) {
@@ -330,29 +340,33 @@ function createFeatures(selectedCountry) {
 
     // Create a GeoJSON layer that contains the features array on the earthquakeData object.
     // Run the onEachFeature function once for each piece of data in the array.
+    let markers = L.markerClusterGroup();
     let earthquakes = L.geoJSON(geoJsonData, {
       onEachFeature: onEachFeature,
       pointToLayer: function (feature, latlng) {
         // Assuming 'feature' contains necessary properties like 'coordinates', 'eq_primary', 'focal_depth'
-        let depth = feature.properties.depth;
-        let magnitude = feature.properties.magnitude;
-
-        return L.circle(latlng, {
-          color: 'black',
-          fillColor: chooseColor(depth),
-          weight: 0.5,
-          fillOpacity: 0.5,
-          radius: markerSize(magnitude)
-        });
-      }
+        return L.marker(latlng)
+          .bindPopup(`<h3>Location: ${feature.properties.location_name}</h3>
+                      <hr>
+                      <p>Date: ${feature.properties.date}</p>
+                      <p>Magnitude: ${feature.properties.magnitude}</p>
+                      <p>Depth: ${feature.properties.depth}</p>
+                      <p>Damage Description: ${feature.properties.damage_description}</p>
+                      <p>Deaths: ${feature.properties.deaths}</p>
+                      <p>Injuries: ${feature.properties.injuries}</p>`);
+      },
     });
 
-    // Send our earthquakes layer to the createMap function.
-    createMap(earthquakes);
+    // Add the GeoJSON layer to the marker cluster group
+    markers.addLayer(earthquakes);
+
+    // Send our marker cluster group to the createMap function.
+    createMap(markers);
   } else {
     console.error('Earthquake data is not available.');
   }
 }
+
 
 
 
@@ -377,6 +391,7 @@ function createMap(earthquakes) {
     style: 'mapbox/light-v11',
     access_token: access_token
   });
+  let markers = L.markerClusterGroup();
 
   // Create layer for tectonic plates.
   let tectonics = L.layerGroup();
@@ -407,31 +422,6 @@ function createMap(earthquakes) {
     layers: [grayscale, earthquakes, tectonics]
   });
 
-  // Set up the legend.
-  let legend = L.control({ position: "bottomright" });
-  legend.onAdd = function () {
-    let div = L.DomUtil.create("div", "info legend");
-    let depth = [-10, 10, 30, 50, 70, 90];
-    let labels = [];
-
-    depth.forEach(function (depthValue, index) {
-      let label = '<li style="background-color:' + chooseColor(depthValue) + ';"></li> ' + depthValue;
-
-      if (depth[index + 1]) {
-        label += "&ndash;" + depth[index + 1] + "<br>";
-      } else {
-        label += "+";
-      }
-
-      labels.push(label);
-    });
-
-    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-    return div;
-  };
-
-  // Adding the legend to the map
-  legend.addTo(myMap);
 
   // Create a layer control.
   // Pass it our baseMaps and overlayMaps.
