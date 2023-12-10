@@ -177,7 +177,7 @@ function updateVerticalBarChart(selectedCountry) {
       title: chartTitle,
       xaxis: { title: 'Date' },
       yaxis: isShowingDeaths ? { title: 'Number of Deaths' } : { title: 'Magnitude' },
-      margin: { t: 50, r: 50, b: 50, l: 200 }
+      margin: { t: 100, r: 100, b: 100, l: 100 }
     };
 
     Plotly.newPlot('vbar', data, layout);
