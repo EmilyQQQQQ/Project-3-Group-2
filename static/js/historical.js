@@ -1,5 +1,6 @@
 let earthquakeData; // Global variable to store earthquake data
 let myMap;
+let selectedChartType = 'deaths';
 
 // Function to fetch earthquake data
 function fetchEarthquakeData() {
@@ -44,6 +45,7 @@ document.getElementById("fetchDataButton").addEventListener("click", function ()
   let selectedCountry = document.getElementById("countryDropdown").value;
   fetchEarthquakeData(selectedCountry);
   updateHorizontalBarChart(selectedCountry);
+  updateVerticalBarChart(selectedCountry);
   createFeatures(selectedCountry);
 });
 
@@ -73,6 +75,7 @@ function optionChanged(selectedCountry) {
 
     // Update the horizontal bar chart
     updateHorizontalBarChart(selectedCountry);
+    updateVerticalBarChart(selectedCountry);
     createFeatures(selectedCountry);
 
     // Zoom to the selected country if it has coordinates
@@ -107,6 +110,79 @@ function getCountryCoordinates(selectedCountry) {
     return [countryEntry.coordinates.lat, countryEntry.coordinates.lon];
   } else {
     return null;
+  }
+}
+
+// Add a variable to keep track of the currently displayed data on the vertical bar chart
+let isShowingDeaths = true;
+
+// Function to toggle between death counts and magnitudes
+function toggleChart(selectedCountry) {
+  // Toggle between 'deaths' and 'magnitude'
+  isShowingDeaths = !isShowingDeaths;
+
+  // Update the chart based on the selected country and the current state
+  updateVerticalBarChart(selectedCountry);
+
+  // Update the button text accordingly
+  let toggleButton = document.getElementById('toggleButton');
+  toggleButton.innerText = `Toggle Chart: ${isShowingDeaths ? 'Magnitude' : 'Deaths'}`;
+}
+
+// Update the vertical bar chart based on the current state (deaths or magnitudes)
+function updateVerticalBarChart(selectedCountry) {
+  // Check if earthquakeData is defined
+  if (earthquakeData) {
+    let filteredData;
+
+    // Check if the selected country is 'ALL'
+    if (selectedCountry === 'ALL') {
+      filteredData = earthquakeData;
+    } else {
+      // Filter the earthquake data based on the selected country
+      filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
+    }
+
+    // Sort the filtered data by date in the format "MM/DD/YYYY"
+    let sortedData = filteredData.sort((a, b) => {
+      let dateA = new Date(`${a.month}/${a.day}/${a.year}`);
+      let dateB = new Date(`${b.month}/${b.day}/${b.year}`);
+      return dateA - dateB;
+    });
+
+    // Extract dates and values for the chart based on the current state
+    let x = sortedData.map(entry => `${entry.month}/${entry.day}/${entry.year}`);
+    let y;
+    let chartTitle;
+
+    if (isShowingDeaths) {
+      y = sortedData.map(entry => entry.deaths);
+      chartTitle = `Earthquake Deaths Over Time in ${selectedCountry}`;
+    } else {
+      y = sortedData.map(entry => entry.eq_primary);
+      chartTitle = `Earthquake Magnitudes Over Time in ${selectedCountry}`;
+    }
+
+    // Create a vertical bar chart using Plotly
+    let data = [{
+      type: 'bar',
+      x: x,
+      y: y,
+      text: sortedData.map(entry => `Depth: ${entry.focal_depth} Location: ${entry.location_name}
+       Damages description: ${entry.damage_description} Deaths: ${entry.deaths} Injuries: ${entry.injuries}`),
+      hoverinfo: 'text'
+    }];
+
+    let layout = {
+      title: chartTitle,
+      xaxis: { title: 'Date' },
+      yaxis: isShowingDeaths ? { title: 'Number of Deaths' } : { title: 'Magnitude' },
+      margin: { t: 50, r: 50, b: 50, l: 200 }
+    };
+
+    Plotly.newPlot('vbar', data, layout);
+  } else {
+    console.error('Earthquake data is not available.');
   }
 }
 
