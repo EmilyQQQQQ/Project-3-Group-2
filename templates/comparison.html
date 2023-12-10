@@ -29,42 +29,113 @@
         </header>
 
     <section>
+<!-- Introduction and questions for K-12 Students -->
+    <h1>Explore the Magnitude on Human Lives</h1>
+    
+    <body>
+        <p> Imagine You're a Scientist Exploring Earthquakes! Use the special Earthquake Data Filters from Sets 1 and 2 to choose things like the country, Id, Minyear, Maxyear, and how strong the earthquakes are. This will help you find just the right earthquakes for your study!</p>
+
+     <div>
+            <h2>Observation:</h2>
+         <p>Take a close look at both pie charts on the webpage. What patterns or differences do you observe between the average number of deaths and the average magnitude? Are there any regions that stand out in terms of high or low values?</p>
+     </div>
+
+      <div>
+           <h2>Inference:</h2>
+            <p>Based on the information presented in the pie charts, can you make any inferences about the relationship between the severity of earthquakes (magnitude) and their impact on human lives (number of deaths)? How might these patterns relate to the geological characteristics of different regions?</p>
+     </div>
+
+
+
+
         <div class="row">
             <div class="col-md-2">
               <div class="well">
-                <h2>Earthquake Data Filters</h2>
-                <h5>Country:</h5>
+                <h2>Earthquake Data Filters Data Set 1</h2>
+                <!-- <h5>Country:</h5> -->
                   <!-- Updated dropdown with id "countryDropdown" -->
-                  <select id="countryDropdown"></select>
+                  <!-- <select id="countryDropdown"></select> -->
               </div>
                 <!-- Box to input a year -->
-                
                 <form id="getDataForm">
-                    <label for="minYear">Min Year:</label>
-                        <input type="text" id="minYear" name="minYear" placeholder="Enter Min Year">
-
-                        <label for="maxYear">Max Year:</label>
-                        <input type="text" id="maxYear" name="maxYear" placeholder="Enter Max Year">
-
-                        <label for="fromMagnitude">From Magnitude:</label>
-                        <input type="text" id="fromMagnitude" name="fromMagnitude" placeholder="Enter From Magnitude">
-                
-                        <label for="toMagnitude">To Magnitude:</label>
-                        <input type="text" id="toMagnitude" name="toMagnitude" placeholder="Enter To Magnitude">
-                
+                    <div>
+                        <label for="Country">Country:</label>
+                        <select id="countryDropdown"></select>
                         <label for="id">ID:</label>
                         <input type="text" id="id" name="id" placeholder="Enter ID">
+                    </div>
 
-                         <button type="button" onclick="getData()">Get Data</button>
+                    <div>  
+                        <label for="minYear">Min Year:</label>
+                        <input type="text" id="minYear" name="minYear" placeholder="Enter Min Year">
+                        <label for="maxYear">Max Year:</label>
+                        <input type="text" id="maxYear" name="maxYear" placeholder="Enter Max Year">
+                    </div>
+                    <div>
+                        <label for="fromMagnitude">From Magnitude:</label>
+                        <input type="text" id="fromMagnitude" name="fromMagnitude" placeholder="Enter From Magnitude">
+                        <label for="toMagnitude">To Magnitude:</label>
+                        <input type="text" id="toMagnitude" name="toMagnitude" placeholder="Enter To Magnitude">
+                    </div>
+                    
+                    <div>
+                         <button type="button" onclick="getData1()">Get Data Set 1</button>
+                    </div>
+                    <!-- <div class="col-md-5 d-flex justify-content-center align-items-center">
+                        <div id="Pie Chart Set 1"></div>
+                    </div> -->
+                     <!-- Second set of data -->
+                     <h2>Earthquake Data Filters Data Set 2</h2>
+                    <div class="input-group">
+                        <div>
+                            <label for="Country">Country:</label>
+                            <select id="countryDropdown2"></select>
+                            <label for="id">ID:</label>
+                            <input type="text" id="id2" name="id2" placeholder="Enter ID">
+                        </div>
+                
+                        <div>
+                            <label for="minYear">Min Year:</label>
+                            <input type="text" id="minYear2" name="minYear2" placeholder="Enter Min Year">
+                            <label for="maxYear">Max Year:</label>
+                            <input type="text" id="maxYear2" name="maxYear2" placeholder="Enter Max Year">
+                        </div>
+                
+                        <div>
+                            <label for="fromMagnitude">From Magnitude:</label>
+                            <input type="text" id="fromMagnitude2" name="fromMagnitude2" placeholder="Enter From Magnitude">
+                            <label for="toMagnitude">To Magnitude:</label>
+                            <input type="text" id="toMagnitude2" name="toMagnitude2" placeholder="Enter To Magnitude">
+                        </div>
+                    </div>
+                <!-- Getting the data from two set of data -->
+                    <button type="button" onclick="getData2()">Get Data Set 2</button>
+                <!-- Graphing the data  -->
+                    <!-- <div class="col-md-5 d-flex justify-content-center align-items-center">
+                        <div id="Pie Chart Set 2"></div>
+                    </div> -->
                  </form>
-                 <div id="result"></div>
+                <!-- start table -->
+                 <div class="chart-container">
+                    <div class="chart">
+                        <div class="col-md-5 d-flex justify-content-center align-items-center">
+                            <div id="Pie Chart Set 1"></div>
+                        </div>
+                    </div>
+                    <div class="chart">
+                        <div class="col-md-5 d-flex justify-content-center align-items-center">
+                            <div id="Pie Chart Set 2"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Finish table -->
             </div>
         </div>
     </section>
 
-
     <!-- Capture page, defining d3 -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript" src="../static/js/comparison.js"></script>
 
     <footer>
@@ -73,63 +144,3 @@
     
 </body>
 </html>
-
-
-
-<!-- <div>
-            <h2>Latest Earthquakes</h2> -->
-            <!-- Updated dropdowns with id "latestMagnitudeDropdown", "latestTimePeriodDropdown", and "latestCountryDropdown" -->
-            <!-- <label for="latestMagnitudeDropdown">Select Magnitude:</label>
-            <select id="latestMagnitudeDropdown">
-                <option value="1">Magnitude 1+</option>
-                <option value="2.5">Magnitude 2.5+</option>
-                <option value="4.5">Magnitude 4.5+</option>
-                <option value="all">All Magnitudes</option>
-            </select>
-    
-            <label for="latestTimePeriodDropdown">Select Time Period:</label>
-            <select id="latestTimePeriodDropdown">
-                <option value="hour">Past Hour</option>
-                <option value="day">Past Day</option>
-                <option value="7">Past 7 Days</option>
-                <option value="30">Past 30 Days</option>
-            </select>
-    
-            <label for="latestCountryDropdown">Select Country:</label>
-            <select id="latestCountryDropdown"> -->
-                <!-- JavaScript will populate the options dynamically -->
-            <!-- </select>
-        </div>
-     -->
-        <!-- Section for Historical Earthquakes -->
-        <!-- <div>
-            <h2>Historical Earthquakes</h2> -->
-            <!-- Updated dropdowns with id "historicalMagnitudeDropdown", "historicalTimePeriodDropdown", and "historicalCountryDropdown" -->
-            <!-- <label for="historicalMagnitudeDropdown">Select Magnitude:</label>
-            <select id="historicalMagnitudeDropdown">
-                <option value="1">Magnitude 1+</option>
-                <option value="2.5">Magnitude 2.5+</option>
-                <option value="4.5">Magnitude 4.5+</option>
-                <option value="all">All Magnitudes</option>
-            </select>
-    
-            <label for="historicalTimePeriodDropdown">Select Time Period:</label>
-            <select id="historicalTimePeriodDropdown">
-                <option value="year">Past Year</option>
-                <option value="2">Past 2 Years</option>
-                <option value="5">Past 5 Years</option>
-                <option value="10">Past 10 Years</option>
-            </select>
-    
-            <label for="historicalCountryDropdown">Select Country:</label>
-            <select id="historicalCountryDropdown"> -->
-                <!-- JavaScript will populate the options dynamically -->
-            <!-- </select>
-        </div> -->
-    
-        <!-- Add a button with id "fetchDataButton" -->
-        <!-- <button id="fetchDataButton">Fetch Earthquakes</button>
-    
-        <div id="content"> -->
-            <!-- The fetched earthquake data will be displayed here -->
-        <!-- </div> -->
