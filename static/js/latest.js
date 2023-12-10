@@ -60,7 +60,6 @@ fetchDataButton.addEventListener("click", () => {
 
 function BarChart(data) {
     // Sort the data based on magnitude in descending order
-
     data.sort((a, b) => b.properties.mag - a.properties.mag);
 
     // Take the top 10 earthquakes
@@ -74,30 +73,34 @@ function BarChart(data) {
     magnitudes.reverse();
     depths.reverse();
 
-    for (i=0; i<locations.length; i++){
+    for (i = 0; i < locations.length; i++) {
         rank = locations.length - i
         parts = locations[i].split(",")
         lastpart = parts[parts.length - 1]
-        locations[i] = rank.toString() + ". " +  lastpart
+        locations[i] = rank.toString() + ". " + lastpart
     }
+
 
     let trace1 = {
         x: magnitudes,
         y: locations,
         text: top10Data.map(entry => `Time: ${new Date(entry.properties.time)}<br>Depth: ${entry.geometry.coordinates[2]} <br>Location: ${entry.properties.place} <br>Magnitude: ${entry.properties.mag}`),
         type: 'bar',
-        orientation: 'h'
+        orientation: 'h',
+        marker: {
+            color: 'rgba(0, 96, 255, 0.79)' // Set the bar color
+        }
     };
 
     let layout1 = {
         title: "Top 10 Earthquakes",
         hovermode: "closest",
-        margin: {t:50,r:100,b:150,l:200},
+        margin: { t: 50, r: 100, b: 150, l: 200 },
         height: 600,
         hoverlabel: { // Adjusted hover label settings
             bgcolor: 'white',
             font: { size: 12 } // Adjust font size
-          }
+        }
     };
 
     // Check if the chart already exists
@@ -111,6 +114,7 @@ function BarChart(data) {
         Plotly.react('hbar', [trace1], layout1);
     }
 }
+
 
 
     // Store our API endpoint as queryUrl.
