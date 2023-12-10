@@ -91,9 +91,7 @@ function optionChanged(selectedCountry) {
     updateHorizontalBarChart(selectedCountry);
     updateVerticalBarChart(selectedCountry);
     createFeatures(selectedCountry);
-
-    // // Zoom to the selected country if it has coordinates
-    // zoomToSelectedCountry(selectedCountry);
+    
   } else {
     console.error('Earthquake data is not available.');
   }
