@@ -3,17 +3,33 @@ let myMap;
 let selectedChartType = 'deaths';
 
 // Function to fetch earthquake data
-function fetchEarthquakeData() {
-  fetch('http://127.0.0.1:5000/getData')
+function fetchEarthquakeData(selectedCountry) {
+  // Get the input values for minYear, maxYear, minMagnitude, maxMagnitude, and id
+  let minYear = document.getElementById("minYear").value;
+  let maxYear = document.getElementById("maxYear").value;
+  let minMagnitude = document.getElementById("fromMagnitude").value;
+  let maxMagnitude = document.getElementById("toMagnitude").value;
+  let id = document.getElementById("id").value;
+
+  // Construct the API request URL with the selectedCountry, minYear, maxYear, minMagnitude, maxMagnitude, and id parameters
+  let apiUrl = `http://127.0.0.1:5000/getData?country=${selectedCountry}&minYear=${minYear}&maxYear=${maxYear}&minMagnitude=${minMagnitude}&maxMagnitude=${maxMagnitude}&id=${id}`;
+
+  fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
       earthquakeData = data; // Set earthquakeData to the fetched data
       console.log(data);
+
+      // Update charts and features with the fetched data
+      updateHorizontalBarChart(selectedCountry);
+      updateVerticalBarChart(selectedCountry);
+      createFeatures(selectedCountry);
     })
     .catch(error => {
       console.error('Error fetching earthquake data:', error);
     });
 }
+
 
 // Call the function to fetch earthquake data
 fetchEarthquakeData();

@@ -135,7 +135,8 @@ def getData():
 
 
     #Return list of earthquakes
-    return earthquakes
+    # return earthquakes
+    return jsonify(earthquakes)
     
 
     
