@@ -84,7 +84,7 @@ function BarChart(data) {
     let trace1 = {
         x: magnitudes,
         y: locations,
-        text: depths,
+        text: top10Data.map(entry => `Time: ${new Date(entry.properties.time)}<br>Depth: ${entry.geometry.coordinates[2]} <br>Location: ${entry.properties.place} <br>Magnitude: ${entry.properties.mag}`),
         type: 'bar',
         orientation: 'h'
     };
@@ -92,7 +92,12 @@ function BarChart(data) {
     let layout1 = {
         title: "Top 10 Earthquakes",
         hovermode: "closest",
-        margin: {t:0,r:0,b:0,l:200}
+        margin: {t:50,r:100,b:150,l:200},
+        height: 600,
+        hoverlabel: { // Adjusted hover label settings
+            bgcolor: 'white',
+            font: { size: 12 } // Adjust font size
+          }
     };
 
     // Check if the chart already exists

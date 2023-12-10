@@ -35,7 +35,7 @@ img {
 }
 
 #map {
-  height: 300px;
+  height: 500px;
   border-radius: 8px;
   margin: 0 auto 15px;
 }
@@ -91,4 +91,29 @@ nav a:hover {
 
 #content a:hover {
   background-color: #a08845; /* Dark green on hover */
+}
+
+
+/* Set a specific width for the layers control box */
+.leaflet-control-layers {
+  width: 0px;
+  height: 0px; /* Adjust the width as needed */
+}
+
+/* Optionally, you can style other elements within the layers control */
+.leaflet-control-layers-list {
+  width: 0px;
+  height: 0px;  
+  background-color: rgba(255, 255, 255, 0.7); 
+  border-radius: 8px;
+}
+
+/* Style the layer names within the control */
+.leaflet-control-layers-label {
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+/* Adjust the width of the layer control box */
+.leaflet-top.leaflet-right .leaflet-control-layers {
+  width: 100px;
+  height: 0px; /* Adjust the width as needed */
 }

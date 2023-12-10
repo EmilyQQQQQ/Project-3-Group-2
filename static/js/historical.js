@@ -86,12 +86,6 @@ function optionChanged(selectedCountry) {
     // Log the filtered data to the console for testing
     console.log("Filtered Data for", selectedCountry, ":", filteredData);
 
-    // Further actions with the filtered data
-    // Update the horizontal bar chart
-    updateHorizontalBarChart(selectedCountry);
-    updateVerticalBarChart(selectedCountry);
-    createFeatures(selectedCountry);
-    
   } else {
     console.error('Earthquake data is not available.');
   }
@@ -140,7 +134,7 @@ function toggleChart(selectedCountry) {
 
   // Update the button text accordingly
   let toggleButton = document.getElementById('toggleButton');
-  toggleButton.innerText = `Toggle Chart: ${isShowingDeaths ? 'Magnitude' : 'Deaths'}`;
+  toggleButton.innerText = `Chart Option: ${isShowingDeaths ? 'Magnitude' : 'Deaths'}`;
 }
 
 // Update the vertical bar chart based on the current state (deaths or magnitudes)
@@ -165,7 +159,7 @@ function updateVerticalBarChart(selectedCountry) {
     });
 
     // Extract dates and values for the chart based on the current state
-    let x = sortedData.map(entry => `${entry.month}/${entry.day}/${entry.year}`);
+    let x = sortedData.map(entry => new Date(entry.year, entry.month - 1, entry.day).toLocaleDateString());
     let y;
     let chartTitle;
 
@@ -177,21 +171,24 @@ function updateVerticalBarChart(selectedCountry) {
       chartTitle = `Earthquake Magnitudes Over Time in ${selectedCountry}`;
     }
 
-    // Create a vertical bar chart using Plotly
     let data = [{
       type: 'bar',
       x: x,
       y: y,
-      text: sortedData.map(entry => `Depth: ${entry.focal_depth} Location: ${entry.location_name}
-       Damages description: ${entry.damage_description} Deaths: ${entry.deaths} Injuries: ${entry.injuries}`),
+      text: sortedData.map(entry => `ID: ${entry.i_d}<br>Depth: ${entry.focal_depth}<br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description}<br>Deaths: ${entry.deaths}<br>Injuries: ${entry.injuries}`),
       hoverinfo: 'text'
     }];
-
+    
     let layout = {
       title: chartTitle,
       xaxis: { title: 'Date' },
       yaxis: isShowingDeaths ? { title: 'Number of Deaths' } : { title: 'Magnitude' },
-      margin: { t: 100, r: 100, b: 100, l: 100 }
+      margin: { t: 100, r: 100, b: 150, l: 100 }, // Adjusted margin to accommodate larger text
+      height: 600, // Increased chart height
+      hoverlabel: { // Adjusted hover label settings
+        bgcolor: 'white',
+        font: { size: 12 } // Adjust font size
+      }
     };
 
     Plotly.newPlot('vbar', data, layout);
@@ -225,11 +222,9 @@ function updateHorizontalBarChart(selectedCountry) {
     // Extract magnitudes and locations for the chart
     let x = topTenData.map(entry => entry.eq_primary);
     let y = topTenData.map((entry, index) => `${index + 1}. ${entry.eq_primary}M in ${entry.country}`);
-    let text = topTenData.map(entry => `Depth: ${entry.focal_depth} Location: ${entry.location_name}
-     Damages description: ${entry.damage_description} Deaths: ${entry.deaths} Injuries: ${entry.injuries}`);
+    let text = topTenData.map(entry => `ID: ${entry.i_d} <br>Depth: ${entry.focal_depth} <br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description} <br>Deaths: ${entry.deaths} <br>Injuries: ${entry.injuries}`);
 
-    // Create a horizontal bar chart using Plotly
-    let data = [{
+     let data = [{
       type: 'bar',
       x: x,
       y: y,
@@ -237,11 +232,18 @@ function updateHorizontalBarChart(selectedCountry) {
       text: text,
       hoverinfo: 'text'
     }];
-
+    
     let layout = {
       title: `Top Ten Earthquakes in ${selectedCountry} (Sorted by Magnitude)`,
-      margin: { t: 50, r: 50, b: 50, l: 200 }
+      margin: { t: 50, r: 50, b: 150, l: 200 }, // Adjusted margin to accommodate larger text
+      height: 600, // Increased chart height
+      hoverlabel: { // Adjusted hover label settings
+        bgcolor: 'white',
+        font: { size: 12 } // Adjust font size
+      }
     };
+    
+    Plotly.newPlot('hbar', data, layout);
 
     Plotly.newPlot('hbar', data, layout);
   } else {
