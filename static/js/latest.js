@@ -77,7 +77,7 @@ function BarChart(data) {
         let rank = locations.length - i;
         let parts = locations[i].split(",");
         let lastpart = parts[parts.length - 1].trim(); // Trim any leading/trailing whitespaces
-        locations[i] = `${rank}. ${magnitudes[i].toFixed(2)} M - ${lastpart}`;
+        locations[i] = `${rank}. M${magnitudes[i].toFixed(2)} - ${lastpart}`;
       }
 
 
