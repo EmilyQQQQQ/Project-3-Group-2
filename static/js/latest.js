@@ -201,13 +201,19 @@ function BarChart(data) {
           'Earthquakes': earthquakes,
           'Tectonic Plates': tectonics,
       };
-  
-      // Create our map, giving it the streetmap and earthquakes layers to display on load.
-      myMap = L.map("map", {
-          center: [30, 0],
-          zoom: 2,
-          layers: [grayscale, earthquakes, tectonics]
-      });
+
+        // Find the earthquake with the maximum magnitude
+        let maxMagnitudeEarthquake = earthquakes.getLayers().reduce((max, layer) => {
+            return layer.feature.properties.mag > max.feature.properties.mag ? layer : max;
+        }, earthquakes.getLayers()[0]);
+    
+        // Create our map, giving it the streetmap and earthquakes layers to display on load.
+        myMap = L.map("map", {
+            // Set the initial view to the coordinates of the earthquake with the maximum magnitude
+            center: [maxMagnitudeEarthquake.feature.geometry.coordinates[1], maxMagnitudeEarthquake.feature.geometry.coordinates[0]],
+            zoom: 3,
+            layers: [grayscale, earthquakes, tectonics]
+            });
   
       // Set up the legend.
       let legend = L.control({ position: "bottomright" });
