@@ -1,15 +1,15 @@
-let earthquakeData; // Global variable to store earthquake data
+let earthquakeData; // Global variable to store earthquake data.
 
 // Function to fetch earthquake data
 function fetchEarthquakeData(selectedCountry) {
-  // Get the input values for minYear, maxYear, minMagnitude, maxMagnitude, and id
+  // Get the input values for minYear, maxYear, minMagnitude, maxMagnitude, and id.
   let minYear = document.getElementById("minYear").value;
   let maxYear = document.getElementById("maxYear").value;
   let minMagnitude = document.getElementById("fromMagnitude").value;
   let maxMagnitude = document.getElementById("toMagnitude").value;
 
 
-  // Construct the API request URL with the selectedCountry, minYear, maxYear, minMagnitude, maxMagnitude, and id parameters
+  // Construct the API request URL with the selectedCountry, minYear, maxYear, minMagnitude and maxMagnitude parameters.
   let apiUrl = `http://127.0.0.1:5000/getData?country=${selectedCountry}&minYear=${minYear}&maxYear=${maxYear}&minMagnitude=${minMagnitude}&maxMagnitude=${maxMagnitude}`;
 
   fetch(apiUrl)
@@ -23,25 +23,24 @@ function fetchEarthquakeData(selectedCountry) {
         if (data[i].injuries === null) {data[i].injuries = "No Data"}
       }
 
-      earthquakeData = data; // Set earthquakeData to the fetched data
+      earthquakeData = data; // Set earthquakeData to the fetched data.
       console.log(data);
 
       let contentDiv = document.getElementById("content");
       contentDiv.innerHTML = "";
 
       if (earthquakeData.length === 0) {
-        //contentDiv.textContent = "No earthquakes found for the specified criteria.";
         alert("No earthquakes found for the specified criteria.")
         updateHorizontalBarChart(selectedCountry);
         updateVerticalBarChart(selectedCountry);
         createFeatures(selectedCountry);
         zoomToSelectedCountry(selectedCountry);
       } else {
-        // Update charts and features with the fetched data
+        // Update charts and features with the fetched data.
         updateHorizontalBarChart(selectedCountry);
         updateVerticalBarChart(selectedCountry);
         createFeatures(selectedCountry);
-        // Zoom to the selected country if it has coordinates
+        // Zoom to the selected country if it has coordinates.
         zoomToSelectedCountry(selectedCountry);
       }
     })
@@ -51,11 +50,7 @@ function fetchEarthquakeData(selectedCountry) {
 }
 
 
-
-// Call the function to fetch earthquake data
-// fetchEarthquakeData();
-
-// Function to create a custom marker icon based on magnitude
+// Function to create a custom marker icon based on magnitude.
 function createCustomIcon(magnitude) {
   return L.divIcon({
     className: 'custom-marker',
@@ -65,16 +60,16 @@ function createCustomIcon(magnitude) {
     popupAnchor: [0, -15]
   });
 }
-// Initialization function
+// Initialization function.
 function init() {
   const countriesUrl = 'http://127.0.0.1:5000/getCountries';
 
-  // Fetching countries data
+  // Fetching countries data.
   fetch(countriesUrl)
     .then(response => response.json())
     .then(function (countries) {
       let dropdown = document.getElementById("countryDropdown");
-      dropdown.innerHTML = ""; // Clear existing options
+      dropdown.innerHTML = ""; // Clear existing options.
       for (let i = 0; i < countries.length; i++) {
         let option = document.createElement("option");
         option.text = countries[i];
@@ -87,49 +82,24 @@ function init() {
     });
 }
 
-// Event listener for the "Fetch Earthquakes" button
+// Event listener for the "Fetch Earthquakes" button.
 document.getElementById("fetchDataButton").addEventListener("click", function () {
   let selectedCountry = document.getElementById("countryDropdown").value;
   fetchEarthquakeData(selectedCountry);
-  //updateHorizontalBarChart(selectedCountry);
-  //updateVerticalBarChart(selectedCountry);
-  //createFeatures(selectedCountry);
 });
 
-// Event listener for the "Screenshot" button
+// Event listener for the "Screenshot" button.
 document.getElementById("capturePageButton").addEventListener("click", capturePage);
-
-// Define the function for dropdown change
-// function optionChanged(selectedCountry) {
-//   // Check if earthquakeData is defined
-//   if (earthquakeData) {
-//     let filteredData;
-
-//     // Check if the selected country is 'ALL'
-//     if (selectedCountry === 'ALL') {
-//       filteredData = earthquakeData;
-//     } else {
-//       // Filter the earthquake data based on the selected country
-//       filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
-//     }
-
-//     // Log the filtered data to the console for testing
-//     console.log("Filtered Data for", selectedCountry, ":", filteredData);
-
-//   } else {
-//     console.error('Earthquake data is not available.');
-//   }
-// }
 
 // Function to zoom to the selected country
 function zoomToSelectedCountry(selectedCountry) {
   if (myMap && selectedCountry !== 'ALL') {
-    // Assuming you have coordinates available in your earthquakeData
+    // Assuming you have coordinates available in your earthquakeData.
     let countryCoordinates = getCountryCoordinates(selectedCountry);
 
     if (countryCoordinates) {
-      // Set the map's center to the selected country's coordinates and zoom in
-      myMap.setView(countryCoordinates, 5); // You can adjust the zoom level as needed
+      // Set the map's center to the selected country's coordinates and zoom in.
+      myMap.setView(countryCoordinates, 5); 
     } else {
       console.warn('Coordinates not available for the selected country:', selectedCountry);
     }
@@ -137,10 +107,9 @@ function zoomToSelectedCountry(selectedCountry) {
 }
 
 
-// Function to get the coordinates of the selected country
+// Function to get the coordinates of the selected country.
 function getCountryCoordinates(selectedCountry) {
-  // Assuming you have a list of countries with corresponding coordinates in your earthquakeData
-  // Adjust this based on your actual data structure
+
   let countryEntry = earthquakeData.find(entry => entry.country === selectedCountry);
 
   if (countryEntry && countryEntry.coordinates) {
@@ -150,26 +119,22 @@ function getCountryCoordinates(selectedCountry) {
   }
 }
 
-// Add a variable to keep track of the currently displayed data on the vertical bar chart
-let isShowingDeaths = true;
-let selectedChartType = 'deaths';
+// Add a variable to keep track of the currently selected chart option.
+let selectedChartOption = 'deaths';
 
-// Function to toggle between death counts and magnitudes
-function toggleChart(selectedCountry) {
-  // Toggle between 'deaths' and 'magnitude'
-  isShowingDeaths = !isShowingDeaths;
+// Function to toggle between death counts and magnitudes.
+function toggleChartOption() {
+  // Get the selected chart option from the dropdown.
+  selectedChartOption = document.getElementById('chartOption').value;
 
-  // Update the chart based on the selected country and the current state
+  // Update the chart based on the selected country and the current state.
+  let selectedCountry = document.getElementById('countryDropdown').value;
   updateVerticalBarChart(selectedCountry);
-
-  // Update the button text accordingly
-  let toggleButton = document.getElementById('toggleButton');
-  toggleButton.innerText = `Chart Option: ${isShowingDeaths ? 'Magnitude' : 'Deaths'}`;
 }
 
 // Update the vertical bar chart based on the current state (deaths or magnitudes)
 function updateVerticalBarChart(selectedCountry) {
-  // Check if earthquakeData is defined
+  // Check if earthquakeData is defined.
   if (earthquakeData) {
     let filteredData;
 
@@ -177,23 +142,23 @@ function updateVerticalBarChart(selectedCountry) {
     if (selectedCountry === 'ALL') {
       filteredData = earthquakeData;
     } else {
-      // Filter the earthquake data based on the selected country
+      // Filter the earthquake data based on the selected country.
       filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
     }
 
-    // Sort the filtered data by date in the format "MM/DD/YYYY"
+    // Sort the filtered data by date in the format "MM/DD/YYYY".
     let sortedData = filteredData.sort((a, b) => {
       let dateA = new Date(`${a.month}/${a.day}/${a.year}`);
       let dateB = new Date(`${b.month}/${b.day}/${b.year}`);
       return dateA - dateB;
     });
 
-    // Extract dates and values for the chart based on the current state
+    // Extract dates and values for the chart based on the current state.
     let x = sortedData.map(entry => new Date(entry.year, entry.month - 1, entry.day).toLocaleDateString());
     let y;
     let chartTitle;
 
-    if (isShowingDeaths) {
+    if (selectedChartOption === 'deaths') {
       y = sortedData.map(entry => entry.deaths);
       chartTitle = `Earthquake Deaths Over Time`;
     } else {
@@ -208,21 +173,22 @@ function updateVerticalBarChart(selectedCountry) {
       text: sortedData.map(entry => `ID: ${entry.i_d}<br>Depth: ${entry.focal_depth}<br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description}<br>Deaths: ${entry.deaths}<br>Injuries: ${entry.injuries}`),
       hoverinfo: 'text',
       marker: {
-        color: 'green' // Set the bar color to green with alpha = 0.5
+        color: 'green' 
       }
     }];
     
     let layout = {
       title: chartTitle,
       xaxis: { title: 'Date' },
-      yaxis: isShowingDeaths ? { title: 'Number of Deaths' } : { title: 'Magnitude' },
-      margin: { t: 100, r: 100, b: 150, l: 100 }, 
-      height: 600, 
-      hoverlabel: { 
+      yaxis: selectedChartOption === 'deaths' ? { title: 'Number of Deaths' } : { title: 'Magnitude' },
+      margin: { t: 100, r: 100, b: 150, l: 100 },
+      height: 600,
+      hoverlabel: {
         bgcolor: 'white',
-        font: { size: 12 } 
+        font: { size: 12 }
       }
     };
+    
 
     Plotly.newPlot('vbar', data, layout);
   } else {
@@ -233,27 +199,27 @@ function updateVerticalBarChart(selectedCountry) {
 
 
 
-// Update the horizontal bar chart based on the current state (deaths or magnitudes)
+// Update the horizontal bar chart based on the current state (deaths or magnitudes).
 function updateHorizontalBarChart(selectedCountry) {
-  // Check if earthquakeData is defined
+  // Check if earthquakeData is defined.
   if (earthquakeData) {
     let filteredData;
 
-    // Check if the selected country is 'ALL'
+    // Check if the selected country is 'ALL'.
     if (selectedCountry === 'ALL') {
       filteredData = earthquakeData;
     } else {
-      // Filter the earthquake data based on the selected country
+      // Filter the earthquake data based on the selected country.
       filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
     }
 
-    // Sort the filtered data by magnitude in descending order
+    // Sort the filtered data by magnitude in descending order.
     let sortedData = filteredData.sort((a, b) => b.eq_primary - a.eq_primary);
 
-    // Take the top ten earthquakes
+    // Take the top ten earthquakes.
     let topTenData = sortedData.slice(0, 10).reverse();
 
-    // Extract magnitudes and locations for the chart
+    // Extract magnitudes and locations for the chart.
     let x = topTenData.map(entry => entry.eq_primary);
     let y = topTenData.map((entry, index) => `${topTenData.length - index}. M${entry.eq_primary} in ${entry.country}`);
     let text = topTenData.map(entry => 
@@ -265,7 +231,7 @@ function updateHorizontalBarChart(selectedCountry) {
                             Deaths: ${entry.deaths}<br>
                             Injuries: ${entry.injuries}<br>
                             Earthquake ID: ${entry.i_d}`);
-    // Set the bar color to green
+
 
     let data = [{
       type: 'bar',
@@ -275,7 +241,7 @@ function updateHorizontalBarChart(selectedCountry) {
       text: text,
       hoverinfo: 'text',
       marker: {
-        color: 'rgba(0, 96, 255, 0.79)' // Set the bar color to green
+        color: 'rgba(0, 96, 255, 0.79)' 
       }
     }];
 
@@ -315,24 +281,19 @@ function chooseColor(depth) {
 }
 
 function createFeatures(selectedCountry) {
-  // Check if earthquakeData is defined
+  // Check if earthquakeData is defined.
   if (earthquakeData) {
     let filteredData;
 
-    // Check if the selected country is 'ALL'
+    // Check if the selected country is 'ALL'.
     if (selectedCountry === 'ALL') {
       filteredData = earthquakeData;
     } else {
-      // Filter the earthquake data based on the selected country
+      // Filter the earthquake data based on the selected country.
       filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
     }
 
-    // if (filteredData.length === 0) {
-    //   console.warn('No earthquake data for the selected country.');
-    //   return;
-    // }
-
-    // Create a GeoJSON object
+    // Create a GeoJSON object.
     let geoJsonData = {
       type: 'FeatureCollection',
       features: filteredData.map(entry => ({
@@ -356,7 +317,7 @@ function createFeatures(selectedCountry) {
     };
 
     function onEachFeature(feature, layer) {
-      // Assuming 'feature' contains necessary properties like 'location_name', 'date', 'eq_primary', and 'focal_depth'
+      
       layer.bindPopup(`<h3>M${feature.properties.magnitude} in ${feature.properties.country}</h3>
                       <hr>
                       Date: ${feature.properties.date}<br>
@@ -375,12 +336,12 @@ function createFeatures(selectedCountry) {
     let earthquakes = L.geoJSON(geoJsonData, {
       onEachFeature: onEachFeature,
       pointToLayer: function (feature, latlng) {
-        // Assuming 'feature' contains necessary properties like 'coordinates', 'eq_primary', 'focal_depth'
+
         return L.marker(latlng);
       },
     });
 
-    // Add the GeoJSON layer to the marker cluster group
+    // Add the GeoJSON layer to the marker cluster group.
     markers.addLayer(earthquakes);
 
     // Send our marker cluster group to the createMap function.
@@ -393,12 +354,12 @@ function createFeatures(selectedCountry) {
 
 
 
-let myMap; // Declare myMap globally
+let myMap; // Declare myMap globally.
 
 function createMap(earthquakes) {
-  // Check if the map already exists
+  // Check if the map already exists.
   if (myMap) {
-    // If the map exists, remove it before creating a new one
+    // If the map exists, remove it before creating a new one.
     myMap.remove();
   }
 
@@ -447,14 +408,12 @@ function createMap(earthquakes) {
 
 
   // Create a layer control.
-  // Pass it our baseMaps and overlayMaps.
-  // Add the layer control to the map.
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(myMap);
 }
 
-// Define the function to capture the page
+// Define the function to capture the page.
 function capturePage() {
   html2canvas(document.body).then(function (canvas) {
     let link = document.createElement('a');
@@ -463,5 +422,5 @@ function capturePage() {
     link.click();
   });
 }
-// Call init function on page load
+// Call init function on page load.
 document.addEventListener("DOMContentLoaded", init);

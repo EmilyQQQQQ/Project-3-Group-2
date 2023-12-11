@@ -90,7 +90,11 @@
         <div class="col-md-15">
           <div id="vbar"></div>
           <!-- Set the initial state of the button to Deaths -->
-          <button id="toggleButton" onclick="toggleChart(document.getElementById('countryDropdown').value)">Chart Options: Deaths</button>
+          <label for="chartOption">Chart Option:</label>
+          <select id="chartOption" onchange="toggleChartOption()">
+            <option value="deaths">Deaths</option>
+            <option value="magnitude">Magnitude</option>
+          </select>
         </div>
       </div>
     </div>
