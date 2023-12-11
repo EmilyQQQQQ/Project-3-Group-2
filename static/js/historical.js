@@ -17,10 +17,19 @@ function fetchEarthquakeData(selectedCountry) {
     .then(data => {
 
       for (i=0; i<data.length; i++){
-        if (data[i].focal_depth === null) {data[i].focal_depth = "No Data"}
-        if (data[i].damage_description === null) {data[i].damage_description = "No Data"}
-        if (data[i].deaths === null) {data[i].deaths = "No Data"}
-        if (data[i].injuries === null) {data[i].injuries = "No Data"}
+        
+        rowData = data[i]
+        text = `Date: ${rowData.month}/${rowData.day}/${rowData.year}<br>
+                Location: ${rowData.location_name}<br>
+                Magnitude: ${rowData.eq_primary}<br>`
+        if (rowData.focal_depth) {text += `Depth: ${rowData.focal_depth}<br>`}
+        if (rowData.damage_description) {text += `Damage: ${rowData.damage_description}<br>` }
+        if (rowData.deaths) {text += `Deaths: ${rowData.deaths}<br>` }
+        if (rowData.injuries) {text += `Injuries: ${rowData.injuries}<br>`}
+        text += `Earthquake ID: ${rowData.i_d}`
+
+        data[i].text = text
+
       }
 
       earthquakeData = data; // Set earthquakeData to the fetched data.
@@ -156,6 +165,7 @@ function updateVerticalBarChart(selectedCountry) {
     // Extract dates and values for the chart based on the current state.
     let x = sortedData.map(entry => new Date(entry.year, entry.month - 1, entry.day).toLocaleDateString());
     let y;
+    let text = sortedData.map(entry => entry.text)
     let chartTitle;
 
     if (selectedChartOption === 'deaths') {
@@ -170,7 +180,8 @@ function updateVerticalBarChart(selectedCountry) {
       type: 'bar',
       x: x,
       y: y,
-      text: sortedData.map(entry => `ID: ${entry.i_d}<br>Depth: ${entry.focal_depth}<br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description}<br>Deaths: ${entry.deaths}<br>Injuries: ${entry.injuries}`),
+      //text: sortedData.map(entry => `ID: ${entry.i_d}<br>Depth: ${entry.focal_depth}<br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description}<br>Deaths: ${entry.deaths}<br>Injuries: ${entry.injuries}`),
+      text: text,
       hoverinfo: 'text',
       marker: {
         color: 'green' 
@@ -222,15 +233,7 @@ function updateHorizontalBarChart(selectedCountry) {
     // Extract magnitudes and locations for the chart.
     let x = topTenData.map(entry => entry.eq_primary);
     let y = topTenData.map((entry, index) => `${topTenData.length - index}. M${entry.eq_primary} in ${entry.country}`);
-    let text = topTenData.map(entry => 
-                            `Date: ${entry.month}/${entry.day}/${entry.year}<br>
-                            Location: ${entry.location_name}<br>
-                            Magnitude: ${entry.eq_primary}<br>
-                            Depth: ${entry.focal_depth}<br>
-                            Damage: ${entry.damage_description}<br>
-                            Deaths: ${entry.deaths}<br>
-                            Injuries: ${entry.injuries}<br>
-                            Earthquake ID: ${entry.i_d}`);
+    let text = topTenData.map(entry => entry.text)
 
 
     let data = [{
@@ -308,6 +311,7 @@ function createFeatures(selectedCountry) {
           injuries: entry.injuries,
           i_d: entry.i_d,
           country: entry.country,
+          text: entry.text
         },
         geometry: {
           type: 'Point',
@@ -320,14 +324,7 @@ function createFeatures(selectedCountry) {
       
       layer.bindPopup(`<h3>M${feature.properties.magnitude} in ${feature.properties.country}</h3>
                       <hr>
-                      Date: ${feature.properties.date}<br>
-                      Location: ${feature.properties.location_name}<br>
-                      Magnitude: ${feature.properties.magnitude}<br>
-                      Depth: ${feature.properties.depth}<br>
-                      Damage: ${feature.properties.damage_description}<br>
-                      Deaths: ${feature.properties.deaths}<br>
-                      Injuries: ${feature.properties.injuries}<br>
-                      Earthquake ID: ${feature.properties.i_d}`);
+                      ${feature.properties.text}`);
     }
 
     // Create a GeoJSON layer that contains the features array on the earthquakeData object.
