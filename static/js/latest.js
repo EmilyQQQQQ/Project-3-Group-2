@@ -68,22 +68,17 @@ function BarChart(data) {
     data.sort((a, b) => b.properties.mag - a.properties.mag);
 
     // Take the top 10 earthquakes
-    let top10Data = data.slice(0, 10);
+    let top10Data = data.slice(0, 10).reverse();
 
     let locations = top10Data.map(entry => entry.properties.place);
     let magnitudes = top10Data.map(entry => entry.properties.mag);
-    let depths = top10Data.map(entry => entry.geometry.coordinates[2]);
 
-    locations.reverse();
-    magnitudes.reverse();
-    depths.reverse();
-
-    for (i = 0; i < locations.length; i++) {
-        rank = locations.length - i
-        parts = locations[i].split(",")
-        lastpart = parts[parts.length - 1]
-        locations[i] = rank.toString() + ". " + lastpart
-    }
+    for (let i = 0; i < locations.length; i++) {
+        let rank = locations.length - i;
+        let parts = locations[i].split(",");
+        let lastpart = parts[parts.length - 1].trim(); // Trim any leading/trailing whitespaces
+        locations[i] = `${rank}. ${magnitudes[i].toFixed(2)} M - ${lastpart}`;
+      }
 
 
     let trace1 = {
