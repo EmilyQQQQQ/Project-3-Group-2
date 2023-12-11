@@ -138,6 +138,8 @@ function getData() {
                     //createPieChart(data, 'Pie Chart Set 1');
                     meanDeaths1 = d3.mean(data, d => d.deaths);
                     meanMagnitude1 = d3.mean(data, d => d.eq_primary);
+                    if (!meanDeaths1) {meanDeaths1 = 0}
+                    if (!meanMagnitude1) {meanMagnitude1 = 0}
                     totalCount1 = data.length
                     getData2();
                 })       
@@ -239,16 +241,17 @@ function getData() {
                     //createTimeSeriesChart(data, 'time-series-chart2',minYear,maxYear);
                     meanDeaths2 = d3.mean(data, d => d.deaths);
                     meanMagnitude2 = d3.mean(data, d => d.eq_primary);
+                    if (!meanDeaths2) {meanDeaths2 = 0}
+                    if (!meanMagnitude2) {meanMagnitude2 = 0}
                     totalCount2 = data.length
 
                     let summaryline1 = document.getElementById("summaryline1");
                     let summaryline2 = document.getElementById("summaryline2");
                     let summaryline3 = document.getElementById("summaryline3");
 
-                    summaryline1.textContent = `There are ${totalCount1} earthquakes in Set 1 and ${totalCount2} earthquakes in set 2.`;
-                    summaryline2.textContent = `The Mean # of Deaths in Set 1 is ${meanDeaths1.toFixed(0)}, while in Set 2 it's ${meanDeaths2.toFixed(0)}.`;
-                    summaryline3.textContent = `The Mean magnitude of Set 1 earthquakes is ${meanMagnitude1.toFixed(2)}. For Set 2 it's ${meanMagnitude2.toFixed(2)}.`;
-
+                    summaryline1.textContent = `Set 1 -- Number of earthquares: ${totalCount1} - Mean # of Deaths: ${meanDeaths1.toFixed(0)} - Mean Magnitude: ${meanMagnitude1.toFixed(2)}.`;
+                    summaryline2.textContent = `Set 2 -- Number of earthquares: ${totalCount2} - Mean # of Deaths: ${meanDeaths2.toFixed(0)} - Mean Magnitude: ${meanMagnitude2.toFixed(2)}.`;
+                    
                     createPieChart(meanDeaths1, meanDeaths2, 'Deaths');
                     createPieChart(meanMagnitude1, meanMagnitude2, 'Magnitudes');
                 })       
