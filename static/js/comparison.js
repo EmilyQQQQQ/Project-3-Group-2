@@ -11,15 +11,16 @@
 // let data; // Declare data as a global variable
 
 
-let url = "http://127.0.0.1:5000/getData";
 const countriesUrl = 'http://127.0.0.1:5000/getCountries';
 
+let base_url = "http://127.0.0.1:5000/getData";
+
 // // Promise Pending
-const dataPromise = d3.json(url);
+const dataPromise = d3.json(base_url);
 console.log("Data Promise: ", dataPromise);
 
 // SET 1: Initialization function that populates dropdown, calls other chart functions, and initializes demographic info
-function initSet1(){
+function initCountries(){
   // API endpoint to get the list of countries
   
   // Fetching countries data
@@ -27,30 +28,28 @@ function initSet1(){
     for (i=0; i<countries.length; i++){
       console.log(countries[i])
       d3.select("#countryDropdown").append("option").text(countries[i]);
-    }
-  });
-}
-
-// SET 2 : Initialization function that populates dropdown, calls other chart functions, and initializes demographic info
-function initSet2(){
-  // API endpoint to get the list of countries
-  
-  // Fetching countries data
-  d3.json(countriesUrl).then(function(countries) {
-    for (i=0; i<countries.length; i++){
-      console.log(countries[i])
       d3.select("#countryDropdown2").append("option").text(countries[i]);
     }
   });
 }
 
 
-//Running the funcitions to get countries from two sets of data
-initSet1();
-initSet2();
+
+//Running the funcitions to get countries for the two sets of data
+initCountries();
+
+var meanDeaths1;
+var meanDeaths2;
+var meanMagnitude1;
+var meanMagnitude2;
+var totalCount1;
+var totalCount2;
 
 //Getting the data of the first set 
-function getData1() {
+function getData() {
+
+  // Get Dataset1
+  url = base_url
   
   var selection = document.getElementById("countryDropdown");
   var country = selection.options[selection.selectedIndex].text;
@@ -132,19 +131,25 @@ function getData1() {
             }
           }
 
-  // Make a request to the Flask server using D3
-  //d3.json("http://127.0.0.1:5000/getData?minYear=" + minYear + "&maxYear=" + maxYear)
-  d3.json(url).then(function(data) {    
-                //createPieChart(data);
-                createPieChart(data, 'Pie Chart Set 1');
-                url = "http://127.0.0.1:5000/getData";
-            })       
-      .catch(function(error) {
-          console.error("Error fetching data:", error);
-      });
-    }//End of getData1()
+      // Make a request to the Flask server using D3
+      //d3.json("http://127.0.0.1:5000/getData?minYear=" + minYear + "&maxYear=" + maxYear)
+      d3.json(url).then(function(data) {    
+                    //createPieChart(data);
+                    //createPieChart(data, 'Pie Chart Set 1');
+                    meanDeaths1 = d3.mean(data, d => d.deaths);
+                    meanMagnitude1 = d3.mean(data, d => d.eq_primary);
+                    totalCount1 = data.length
+                    getData2();
+                })       
+          .catch(function(error) {
+              console.error("Error fetching data:", error);
+          });
 
-    function getData2() {
+        };
+
+      // Get Dataset2
+  function getData2() {
+      url = base_url
   
       var selection = document.getElementById("countryDropdown2");
       var country = selection.options[selection.selectedIndex].text;
@@ -230,29 +235,47 @@ function getData1() {
       d3.json(url).then(function(data) {
         //Creation and update of the Piechart   
                     //createPieChart(data);
-                    createPieChart(data, 'Pie Chart Set 2');
-                    createTimeSeriesChart(data, 'time-series-chart2',minYear,maxYear);
-                    url = "http://127.0.0.1:5000/getData";
+                    //createPieChart(data, 'Pie Chart Set 2');
+                    //createTimeSeriesChart(data, 'time-series-chart2',minYear,maxYear);
+                    meanDeaths2 = d3.mean(data, d => d.deaths);
+                    meanMagnitude2 = d3.mean(data, d => d.eq_primary);
+                    totalCount2 = data.length
+
+                    let summaryline1 = document.getElementById("summaryline1");
+                    let summaryline2 = document.getElementById("summaryline2");
+                    let summaryline3 = document.getElementById("summaryline3");
+
+                    summaryline1.textContent = `There are ${totalCount1} earthquakes in Set 1 and ${totalCount2} earthquakes in set 2.`;
+                    summaryline2.textContent = `The Mean # of Deaths in Set 1 is ${meanDeaths1.toFixed(0)}, while in Set 2 it's ${meanDeaths2.toFixed(0)}.`;
+                    summaryline3.textContent = `The Mean magnitude of Set 1 earthquakes is ${meanMagnitude1.toFixed(2)}. For Set 2 it's ${meanMagnitude2.toFixed(2)}.`;
+
+                    createPieChart(meanDeaths1, meanDeaths2, 'Deaths');
+                    createPieChart(meanMagnitude1, meanMagnitude2, 'Magnitudes');
                 })       
           .catch(function(error) {
               console.error("Error fetching data:", error);
           });
-        }//end of getData2()
+
+        
+
+
+        }//end of getData()
 
 
 
 
         //Creation of a Piechart
   
-    function createPieChart(data, targetElementId) {
-      // Calculate means
-      const meanDeaths = d3.mean(data, d => d.deaths);
-      const meanMagnitude = d3.mean(data, d => d.eq_primary);
-  
+    function createPieChart(value1, value2, compElement) {
+      
+      targetElementId = `Pie Chart ${compElement}`
+
       // Create data for Plotly pie chart
       const pieData = [{
-          values: [meanDeaths, meanMagnitude],
-          labels: ['Mean Deaths', 'Mean Magnitude'],
+          values: [value1, value2],
+          labels: ['Set 1', 'Set 2'],
+          marker:
+          {colors: ["blue", "orange"]},
           type: 'pie'
       }];
   
@@ -260,11 +283,12 @@ function getData1() {
       const layout = {
           height: 400,
           width: 400,
-          title: `Mean Deaths and Mean\nMagnitude Earthquake - ${targetElementId}`,
+          title: `Mean ${compElement} in Set 1 vs. Set 2`,
           font: {
             size: 8,
           bold: true,}   // Adjust the font size as needed 
         };
+
   
       // Plot the pie chart using Plotly
       Plotly.react(targetElementId, pieData, layout);

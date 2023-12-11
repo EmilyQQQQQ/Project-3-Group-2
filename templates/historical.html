@@ -48,23 +48,26 @@
       <div class="row">
         <div class="col-md-12">
           <div class="well">
-            <h5>Country:</h5>
-            <!-- Updated dropdown with id "countryDropdown" -->
-            <select id="countryDropdown" onchange="optionChanged(this.value)"></select>
-            <!-- Both "Fetch Earthquakes" and "Capture" buttons side by side -->
-            <form id="fetchDataButton">
+            <form id="fetchCriteria">
+              <label for="countryDropdown">Country:</label>
+              <!-- Updated dropdown with id "countryDropdown" -->
+              <select id="countryDropdown" onchange="optionChanged(this.value)"></select>
+              <!-- Both "Fetch Earthquakes" and "Capture" buttons side by side -->
+              <br>
               <label for="minYear">Min Year:</label>
               <input type="text" id="minYear" name="minYear" placeholder="Enter Min Year">
               <label for="maxYear">Max Year:</label>
               <input type="text" id="maxYear" name="maxYear" placeholder="Enter Max Year">
+              <br>
               <label for="fromMagnitude">From Magnitude:</label>
               <input type="text" id="fromMagnitude" name="fromMagnitude" placeholder="Enter From Magnitude">
               <label for="toMagnitude">To Magnitude:</label>
               <input type="text" id="toMagnitude" name="toMagnitude" placeholder="Enter To Magnitude">
-              <button type="button" onclick="fetchEarthquakeData()">Fetch Earthquakes</button>
+              <br>
+              <button type="button" id="fetchDataButton">Fetch Earthquakes</button>
+              <button id="capturePageButton" onclick="capturePage()">Take a Screenshot</button>
             </form>
             
-            <button id="capturePageButton" onclick="capturePage()">Take a Screenshot</button>
 
             <div id="result"></div>
           </div>

@@ -15,6 +15,14 @@ function fetchEarthquakeData(selectedCountry) {
   fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
+
+      for (i=0; i<data.length; i++){
+        if (data[i].focal_depth === null) {data[i].focal_depth = "No Data"}
+        if (data[i].damage_description === null) {data[i].damage_description = "No Data"}
+        if (data[i].deaths === null) {data[i].deaths = "No Data"}
+        if (data[i].injuries === null) {data[i].injuries = "No Data"}
+      }
+
       earthquakeData = data; // Set earthquakeData to the fetched data
       console.log(data);
 
@@ -22,7 +30,12 @@ function fetchEarthquakeData(selectedCountry) {
       contentDiv.innerHTML = "";
 
       if (earthquakeData.length === 0) {
-        contentDiv.textContent = "No earthquakes found for the specified criteria.";
+        //contentDiv.textContent = "No earthquakes found for the specified criteria.";
+        alert("No earthquakes found for the specified criteria.")
+        updateHorizontalBarChart(selectedCountry);
+        updateVerticalBarChart(selectedCountry);
+        createFeatures(selectedCountry);
+        zoomToSelectedCountry(selectedCountry);
       } else {
         // Update charts and features with the fetched data
         updateHorizontalBarChart(selectedCountry);
@@ -78,35 +91,35 @@ function init() {
 document.getElementById("fetchDataButton").addEventListener("click", function () {
   let selectedCountry = document.getElementById("countryDropdown").value;
   fetchEarthquakeData(selectedCountry);
-  updateHorizontalBarChart(selectedCountry);
-  updateVerticalBarChart(selectedCountry);
-  createFeatures(selectedCountry);
+  //updateHorizontalBarChart(selectedCountry);
+  //updateVerticalBarChart(selectedCountry);
+  //createFeatures(selectedCountry);
 });
 
 // Event listener for the "Screenshot" button
 document.getElementById("capturePageButton").addEventListener("click", capturePage);
 
 // Define the function for dropdown change
-function optionChanged(selectedCountry) {
-  // Check if earthquakeData is defined
-  if (earthquakeData) {
-    let filteredData;
+// function optionChanged(selectedCountry) {
+//   // Check if earthquakeData is defined
+//   if (earthquakeData) {
+//     let filteredData;
 
-    // Check if the selected country is 'ALL'
-    if (selectedCountry === 'ALL') {
-      filteredData = earthquakeData;
-    } else {
-      // Filter the earthquake data based on the selected country
-      filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
-    }
+//     // Check if the selected country is 'ALL'
+//     if (selectedCountry === 'ALL') {
+//       filteredData = earthquakeData;
+//     } else {
+//       // Filter the earthquake data based on the selected country
+//       filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
+//     }
 
-    // Log the filtered data to the console for testing
-    console.log("Filtered Data for", selectedCountry, ":", filteredData);
+//     // Log the filtered data to the console for testing
+//     console.log("Filtered Data for", selectedCountry, ":", filteredData);
 
-  } else {
-    console.error('Earthquake data is not available.');
-  }
-}
+//   } else {
+//     console.error('Earthquake data is not available.');
+//   }
+// }
 
 // Function to zoom to the selected country
 function zoomToSelectedCountry(selectedCountry) {
@@ -182,10 +195,10 @@ function updateVerticalBarChart(selectedCountry) {
 
     if (isShowingDeaths) {
       y = sortedData.map(entry => entry.deaths);
-      chartTitle = `Earthquake Deaths Over Time in ${selectedCountry}`;
+      chartTitle = `Earthquake Deaths Over Time`;
     } else {
       y = sortedData.map(entry => entry.eq_primary);
-      chartTitle = `Earthquake Magnitudes Over Time in ${selectedCountry}`;
+      chartTitle = `Earthquake Magnitudes Over Time`;
     }
 
     let data = [{
@@ -242,8 +255,16 @@ function updateHorizontalBarChart(selectedCountry) {
 
     // Extract magnitudes and locations for the chart
     let x = topTenData.map(entry => entry.eq_primary);
-    let y = topTenData.map((entry, index) => `${index + 1}. ${entry.eq_primary}M in ${entry.country}`);
-    let text = topTenData.map(entry => `ID: ${entry.i_d} <br>Depth: ${entry.focal_depth} <br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description} <br>Deaths: ${entry.deaths} <br>Injuries: ${entry.injuries}`);
+    let y = topTenData.map((entry, index) => `${topTenData.length - index}. M${entry.eq_primary} in ${entry.country}`);
+    let text = topTenData.map(entry => 
+                            `Date: ${entry.month}/${entry.day}/${entry.year}<br>
+                            Location: ${entry.location_name}<br>
+                            Magnitude: ${entry.eq_primary}<br>
+                            Depth: ${entry.focal_depth}<br>
+                            Damage: ${entry.damage_description}<br>
+                            Deaths: ${entry.deaths}<br>
+                            Injuries: ${entry.injuries}<br>
+                            Earthquake ID: ${entry.i_d}`);
     // Set the bar color to green
 
     let data = [{
@@ -259,7 +280,7 @@ function updateHorizontalBarChart(selectedCountry) {
     }];
 
     let layout = {
-      title: `Top Ten Earthquakes in ${selectedCountry} (Sorted by Magnitude)`,
+      title: `Top Ten Earthquakes by Magnitude`,
       margin: { t: 50, r: 50, b: 150, l: 200 },
       height: 600,
       hoverlabel: {
@@ -306,10 +327,10 @@ function createFeatures(selectedCountry) {
       filteredData = earthquakeData.filter(entry => entry.country === selectedCountry);
     }
 
-    if (filteredData.length === 0) {
-      console.warn('No earthquake data for the selected country.');
-      return;
-    }
+    // if (filteredData.length === 0) {
+    //   console.warn('No earthquake data for the selected country.');
+    //   return;
+    // }
 
     // Create a GeoJSON object
     let geoJsonData = {
@@ -324,6 +345,8 @@ function createFeatures(selectedCountry) {
           damage_description: entry.damage_description,
           deaths: entry.deaths,
           injuries: entry.injuries,
+          i_d: entry.i_d,
+          country: entry.country,
         },
         geometry: {
           type: 'Point',
@@ -334,14 +357,16 @@ function createFeatures(selectedCountry) {
 
     function onEachFeature(feature, layer) {
       // Assuming 'feature' contains necessary properties like 'location_name', 'date', 'eq_primary', and 'focal_depth'
-      layer.bindPopup(`<h3>Location: ${feature.properties.location_name}</h3>
+      layer.bindPopup(`<h3>M${feature.properties.magnitude} in ${feature.properties.country}</h3>
                       <hr>
-                      <p>Date: ${feature.properties.date}</p>
-                      <p>Magnitude: ${feature.properties.magnitude}</p>
-                      <p>Depth: ${feature.properties.depth}</p>
-                      <p>Damage Description: ${feature.properties.damage_description}</p>
-                      <p>Deaths: ${feature.properties.deaths}</p>
-                      <p>Injuries: ${feature.properties.injuries}</p>`);
+                      Date: ${feature.properties.date}<br>
+                      Location: ${feature.properties.location_name}<br>
+                      Magnitude: ${feature.properties.magnitude}<br>
+                      Depth: ${feature.properties.depth}<br>
+                      Damage: ${feature.properties.damage_description}<br>
+                      Deaths: ${feature.properties.deaths}<br>
+                      Injuries: ${feature.properties.injuries}<br>
+                      Earthquake ID: ${feature.properties.i_d}`);
     }
 
     // Create a GeoJSON layer that contains the features array on the earthquakeData object.
@@ -351,15 +376,7 @@ function createFeatures(selectedCountry) {
       onEachFeature: onEachFeature,
       pointToLayer: function (feature, latlng) {
         // Assuming 'feature' contains necessary properties like 'coordinates', 'eq_primary', 'focal_depth'
-        return L.marker(latlng)
-          .bindPopup(`<h3>Location: ${feature.properties.location_name}</h3>
-                      <hr>
-                      <p>Date: ${feature.properties.date}</p>
-                      <p>Magnitude: ${feature.properties.magnitude}</p>
-                      <p>Depth: ${feature.properties.depth}</p>
-                      <p>Damage Description: ${feature.properties.damage_description}</p>
-                      <p>Deaths: ${feature.properties.deaths}</p>
-                      <p>Injuries: ${feature.properties.injuries}</p>`);
+        return L.marker(latlng);
       },
     });
 

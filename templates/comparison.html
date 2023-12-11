@@ -78,9 +78,6 @@
                         <input type="text" id="toMagnitude" name="toMagnitude" placeholder="Enter To Magnitude">
                     </div>
                     
-                    <div>
-                         <button type="button" onclick="getData1()">Get Data Set 1</button>
-                    </div>
                     <!-- <div class="col-md-5 d-flex justify-content-center align-items-center">
                         <div id="Pie Chart Set 1"></div>
                     </div> -->
@@ -109,22 +106,29 @@
                         </div>
                     </div>
                 <!-- Getting the data from two set of data -->
-                    <button type="button" onclick="getData2()">Get Data Set 2</button>
+                    <button type="button" onclick="getData()">Get Data</button>
                 <!-- Graphing the data  -->
                     <!-- <div class="col-md-5 d-flex justify-content-center align-items-center">
                         <div id="Pie Chart Set 2"></div>
                     </div> -->
                  </form>
                 <!-- start table -->
+
+                <div class="comparisonSummary">
+                    <h4 id="summaryline1"></h4>
+                    <h4 id="summaryline2"></h4>
+                    <h4 id="summaryline3"></h4>
+                </div>
+
                  <div class="chart-container">
                     <div class="chart">
                         <div class="col-md-5 d-flex justify-content-center align-items-center">
-                            <div id="Pie Chart Set 1"></div>
+                            <div id="Pie Chart Deaths"></div>
                         </div>
                     </div>
                     <div class="chart">
                         <div class="col-md-5 d-flex justify-content-center align-items-center">
-                            <div id="Pie Chart Set 2"></div>
+                            <div id="Pie Chart Magnitudes"></div>
                         </div>
                     </div>
                 </div>

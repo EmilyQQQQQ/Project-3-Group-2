@@ -39,7 +39,12 @@ fetchDataButton.addEventListener("click", () => {
             contentDiv.innerHTML = "";
 
             if (earthquakes.length === 0) {
-                contentDiv.textContent = "No earthquakes found for the specified criteria.";
+                alert("(Not so) Bad News! No earthquakes found for the specified criteria.")
+                //contentDiv.textContent = "No earthquakes found for the specified criteria.";
+                createFeatures(data.features);
+                BarChart(data.features);
+                //Plotly.deleteTraces(hbar, 0);
+                //chartExists ^= true;
             } else {
                 // Perform a GET request to the query URL
                 d3.json(usgsApiUrl).then(function (data) {
@@ -84,6 +89,7 @@ function BarChart(data) {
     let trace1 = {
         x: magnitudes,
         y: locations,
+        hoverinfo: 'text',
         text: top10Data.map(entry => `Time: ${new Date(entry.properties.time)}<br>Depth: ${entry.geometry.coordinates[2]} <br>Location: ${entry.properties.place} <br>Magnitude: ${entry.properties.mag}`),
         type: 'bar',
         orientation: 'h',
@@ -93,7 +99,7 @@ function BarChart(data) {
     };
 
     let layout1 = {
-        title: "Top 10 Earthquakes",
+        title: "Top 10 Earthquakes by Magnitude",
         hovermode: "closest",
         margin: { t: 50, r: 100, b: 150, l: 200 },
         height: 600,
@@ -210,26 +216,29 @@ function BarChart(data) {
   
       // Set up the legend.
       let legend = L.control({ position: "bottomright" });
+      
       legend.onAdd = function () {
-          let div = L.DomUtil.create("div", "info legend");
-          let depth = [-10, 10, 30, 50, 70, 90];
-          let labels = [];
-  
-          depth.forEach(function (depthValue, index) {
-              let label = '<li style="background-color:' + chooseColor(depthValue) + ';"></li> ' + depthValue;
-  
-              if (depth[index + 1]) {
-                  label += "&ndash;" + depth[index + 1] + "<br>";
-              } else {
-                  label += "+";
-              }
-  
-              labels.push(label);
-          });
-  
-          div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-          return div;
-      };
+        let div = L.DomUtil.create("div", "info legend");
+        let depth = [-10, 10, 30, 50, 70, 90];
+        let labels = [];
+
+        depth.forEach(function (depthValue, index) {
+            let label = '<li style="background-color:' + chooseColor(depthValue) + ';"> ' + depthValue ;
+
+            if (depth[index + 1]) {
+                label += "&ndash;" + depth[index + 1] + "<br>";
+            } else {
+                label += "+";
+            }
+
+            label += '</li>';
+
+            labels.push(label);
+        });
+
+        div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+        return div;
+    };
   
       // Adding the legend to the map
       legend.addTo(myMap);
