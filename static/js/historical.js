@@ -172,10 +172,10 @@ function updateVerticalBarChart(selectedCountry) {
 
     if (selectedChartOption === 'deaths') {
       y = sortedData.map(entry => entry.deaths);
-      chartTitle = `Earthquake Deaths Over Time`;
+      chartTitle = `Earthquake Deaths Over Time in ${selectedCountry}`;
     } else {
       y = sortedData.map(entry => entry.injuries);
-      chartTitle = `Earthquake Injuries Over Time`;
+      chartTitle = `Earthquake Injuries Over Time in ${selectedCountry}`;
     }
 
 
