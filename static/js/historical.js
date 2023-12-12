@@ -164,7 +164,8 @@ function updateVerticalBarChart(selectedCountry) {
     console.log('testing here')
     console.log(sortedData)
     // Extract dates and values for the chart based on the current state.
-    let x = sortedData.map(entry => new Date(entry.year, entry.month - 1, entry.day).toLocaleDateString());
+    //let x = sortedData.map(entry => new Date(entry.year, entry.month - 1, entry.day).toLocaleDateString());
+    let x = sortedData.map(entry => entry.year)
     let y;
     let text = sortedData.map(entry => entry.text)
     let chartTitle;
