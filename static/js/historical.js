@@ -157,11 +157,12 @@ function updateVerticalBarChart(selectedCountry) {
 
     // Sort the filtered data by date in the format "MM/DD/YYYY".
     let sortedData = filteredData.sort((a, b) => {
-      let dateA = new Date(`${a.month}/${a.day}/${a.year}`);
-      let dateB = new Date(`${b.month}/${b.day}/${b.year}`);
+      let dateA = new Date(`${a.year}/${a.month}/${a.day}`);
+      let dateB = new Date(`${b.year}/${b.month}/${b.day}`);
       return dateA - dateB;
     });
-
+    console.log('testing here')
+    console.log(sortedData)
     // Extract dates and values for the chart based on the current state.
     let x = sortedData.map(entry => new Date(entry.year, entry.month - 1, entry.day).toLocaleDateString());
     let y;
@@ -175,6 +176,7 @@ function updateVerticalBarChart(selectedCountry) {
       y = sortedData.map(entry => entry.eq_primary);
       chartTitle = `Earthquake Magnitudes Over Time`;
     }
+
 
     let data = [{
       type: 'bar',

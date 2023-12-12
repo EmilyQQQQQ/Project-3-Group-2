@@ -92,30 +92,3 @@ nav a:hover {
 #content a:hover {
   background-color: #a08845; /* Dark green on hover */
 }
-
-/* Optionally, you can style other elements within the layers control */
-.leaflet-control-layers-list {
-  background-color: rgba(255, 255, 255, 0.7); 
-  border-radius: 8px;
-}
-
-/* Style the layer names within the control */
-.leaflet-control-layers-label {
-  white-space: nowrap; /* Prevent text from wrapping */
-}
-
-/* Adjust the width of the layer control box */
-.leaflet-top.leaflet-right .leaflet-control-layers {
-  width: 170px;
-  height: 0px; /* Adjust the width as needed */
-}
-
-/*set comparison template configuration*/
-.chart-container {
-  display: flex;
-  justify-content: space-between;
-}
-.chart-container .chart {
-  width: 50%; /* Adjust as needed */
-  margin: 10px;
-}
