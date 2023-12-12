@@ -89,7 +89,7 @@ The JavaScript code on the "latest.html" page handles dynamic visualization of t
    - Appends retrieved news data as list items to the ticker box.
 
 3. **Starting the Ticker Animation:**
-   - Calls the `startTicker` function with custom speed and delay parameters to initiate the news ticker animation.
+   - Calls the `startTicker` function in the news-ticker.js library with custom speed and delay parameters to initiate the news ticker animation.
 
 
 #### Historical Earthquake Activitys Page
