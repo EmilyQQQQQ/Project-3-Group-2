@@ -98,7 +98,7 @@ The JavaScript code on the "historical.html" page is responsible for facilitatin
 
 #### Compare Earthquake Histories Page
 
-The JavaScript code on the "comparison.html" page initializes two datasets, fetches data using D3, and calculates summary statistics such as mean deaths, mean magnitudes, and total counts for both sets. It dynamically populates dropdowns with countries, fetches earthquake data based on user-selected parameters, and updates the page with a summary of the comparison. The code also includes functions for creating and updating pie charts comparing mean deaths and mean magnitudes between the two datasets. Additionally, the code includes functions for styling and extending objects that are used in the news ticker animation 'from news-ticker.js'
+The JavaScript code on the "comparison.html" page initializes two datasets, fetches data using D3, and calculates summary statistics such as mean deaths, mean magnitudes, and total counts for both sets. It dynamically populates dropdowns with countries, fetches earthquake data based on user-selected parameters, and updates the page with a summary of the comparison. The code also includes functions for creating and updating pie charts comparing mean deaths and mean magnitudes between the two datasets. Additionally, the code includes functions for styling and extending objects that are used in the news ticker animation from news-ticker.js
 
 ### Running the Application
 
