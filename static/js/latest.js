@@ -202,6 +202,7 @@ function BarChart(data) {
           'Tectonic Plates': tectonics,
       };
 
+
         // Find the earthquake with the maximum magnitude
         let maxMagnitudeEarthquake = earthquakes.getLayers().reduce((max, layer) => {
             return layer.feature.properties.mag > max.feature.properties.mag ? layer : max;
@@ -250,7 +251,10 @@ function BarChart(data) {
       L.control.layers(baseMaps, overlayMaps, {
           collapsed: false
       }).addTo(myMap);
-  }
+
+    }
+
+
     function capturePage() {
         // Capture the entire page
         html2canvas(document.body).then(function (canvas) {

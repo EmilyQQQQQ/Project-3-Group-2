@@ -123,7 +123,19 @@ To run the web application and explore earthquake data visualizations, follow th
 4. **Explore Different Pages:**
    - Use the navigation links to explore historical earthquake data, view the latest earthquakes, and compare earthquake histories.
 
+### Data Sources:
 
+**Latest Earthquakes:**
+- URL: [https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php)
+
+**Historical Major Earthquakes:**
+- URL: [https://public.opendatasoft.com/explore/dataset/significant-earthquake-database/table/](https://public.opendatasoft.com/explore/dataset/significant-earthquake-database/table/)
+
+**Earthquake News (Web Scraping):**
+- URL: [https://abcnews.go.com/alerts/earthquakes](https://abcnews.go.com/alerts/earthquakes)
+
+**News Ticker:**
+- URL: [https://phppot.com/javascript/javascript-news-ticker/](https://phppot.com/javascript/javascript-news-ticker/)
 
 
 
