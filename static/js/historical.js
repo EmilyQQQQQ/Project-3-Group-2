@@ -421,5 +421,9 @@ function capturePage() {
     link.click();
   });
 }
+// Define the function for dropdown change
+function optionChanged(selectedCountry) {
+  console.warn("click on fetch earthquake button to get result");
+}
 // Call init function on page load.
 document.addEventListener("DOMContentLoaded", init);
