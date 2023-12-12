@@ -48,7 +48,7 @@ This repository combines two components for earthquake data management and visua
 
 #### Code Structure
 
-- **data_processing.py:** Responsible for connecting to the MongoDB database, removing unwanted columns, and deleting rows with incomplete data.
+- **cleanData.ipynb:** Responsible for connecting to the MongoDB database, removing unwanted columns, and deleting rows with incomplete data.
 
 #### Data Processing
 
