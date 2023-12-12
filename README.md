@@ -1,10 +1,10 @@
 # Earthquake Data Visualization and Processing
 
 ## Group Members
-Kamal Farran
-Qianchen Ai
-Jesús Hernández
-Mahsa Nafei
+- Kamal Farran
+- Qianchen Ai
+- Jesús Hernández
+- Mahsa Nafei
 
 ## Overview
 
