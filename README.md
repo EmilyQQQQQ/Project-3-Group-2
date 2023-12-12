@@ -106,6 +106,7 @@ To run the web application and explore earthquake data visualizations, follow th
 
 1. **Install Dependencies:**
    - Ensure you have Python, Flask and PyMongo installed. 
+   - create access_token and locate as config.js in js folder or contact us for give our own key to share with you: [https://www.mapbox.com/](https://www.mapbox.com/)
 
 2. **Run the Application:**
 
@@ -117,8 +118,7 @@ To run the web application and explore earthquake data visualizations, follow th
 
 3. **Access the Web App:**
     - Navigate to the project directory and run the following command on shell:
-    python app.py -m http.server --bind 127.0.0.1 5000
-
+    python app.py -m http.server --bind 127.0.0.1 5000  
 
 4. **Explore Different Pages:**
    - Use the navigation links to explore historical earthquake data, view the latest earthquakes, and compare earthquake histories.
@@ -134,7 +134,7 @@ To run the web application and explore earthquake data visualizations, follow th
 **Earthquake News (Web Scraping):**
 - URL: [https://abcnews.go.com/alerts/earthquakes](https://abcnews.go.com/alerts/earthquakes)
 
-**News Ticker:**
+**News Ticker:** Phppot - A Javascript library that displays a news ticker used in the "Latest" page, to display the ABC News headlines.
 - URL: [https://phppot.com/javascript/javascript-news-ticker/](https://phppot.com/javascript/javascript-news-ticker/)
 
 
