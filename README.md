@@ -1,5 +1,11 @@
 # Earthquake Data Visualization and Processing
 
+## Group Members
+Kamal Farran
+Qianchen Ai
+Jesús Hernández
+Mahsa Nafei
+
 ## Overview
 
 This repository combines two components for earthquake data management and visualization. The project includes a Flask-based web application for visualizing earthquake data and a data processing script using PyMongo for cleaning and preparing the data.
