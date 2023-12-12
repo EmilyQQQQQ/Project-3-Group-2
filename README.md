@@ -105,7 +105,7 @@ The JavaScript code on the "comparison.html" page initializes two datasets, fetc
 To run the web application and explore earthquake data visualizations, follow these steps:
 
 1. **Install Dependencies:**
-   - Ensure you have Python and Flask installed. 
+   - Ensure you have Python, Flask and PyMongo installed. 
 
 2. **Run the Application:**
 
@@ -116,7 +116,7 @@ To run the web application and explore earthquake data visualizations, follow th
     cleanData.ipynb
 
 3. **Access the Web App:**
-    - Navigate to the project directory and run `python app.py` in the terminal. Run the following command on shell:
+    - Navigate to the project directory and run the following command on shell:
     python app.py -m http.server --bind 127.0.0.1 5000
 
 
