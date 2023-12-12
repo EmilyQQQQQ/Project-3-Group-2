@@ -106,7 +106,7 @@ To run the web application and explore earthquake data visualizations, follow th
 
 1. **Install Dependencies:**
    - Ensure you have Python, Flask and PyMongo installed. 
-   - create access_token and locate as config.js in js folder or contact us for give our own key to share with you: [https://www.mapbox.com/](https://www.mapbox.com/)
+   - Create an access_token and save it as `config.js` in the `js` folder. You can obtain your access token from [Mapbox](https://www.mapbox.com/) or contact us to provide our own key for you.
 
 2. **Run the Application:**
 
