@@ -131,7 +131,7 @@ function getCountryCoordinates(selectedCountry) {
 // Add a variable to keep track of the currently selected chart option.
 let selectedChartOption = 'deaths';
 
-// Function to toggle between death counts and magnitudes.
+// Function to toggle between death counts and injuries.
 function toggleChartOption() {
   // Get the selected chart option from the dropdown.
   selectedChartOption = document.getElementById('chartOption').value;
@@ -141,7 +141,7 @@ function toggleChartOption() {
   updateVerticalBarChart(selectedCountry);
 }
 
-// Update the vertical bar chart based on the current state (deaths or magnitudes)
+// Update the vertical bar chart based on the current state (deaths or injuries)
 function updateVerticalBarChart(selectedCountry) {
   // Check if earthquakeData is defined.
   if (earthquakeData) {
@@ -174,8 +174,8 @@ function updateVerticalBarChart(selectedCountry) {
       y = sortedData.map(entry => entry.deaths);
       chartTitle = `Earthquake Deaths Over Time`;
     } else {
-      y = sortedData.map(entry => entry.eq_primary);
-      chartTitle = `Earthquake Magnitudes Over Time`;
+      y = sortedData.map(entry => entry.injuries);
+      chartTitle = `Earthquake Injuries Over Time`;
     }
 
 
@@ -183,7 +183,6 @@ function updateVerticalBarChart(selectedCountry) {
       type: 'bar',
       x: x,
       y: y,
-      //text: sortedData.map(entry => `ID: ${entry.i_d}<br>Depth: ${entry.focal_depth}<br>Location: ${entry.location_name}<br>Damages description: ${entry.damage_description}<br>Deaths: ${entry.deaths}<br>Injuries: ${entry.injuries}`),
       text: text,
       hoverinfo: 'text',
       marker: {
@@ -194,7 +193,7 @@ function updateVerticalBarChart(selectedCountry) {
     let layout = {
       title: chartTitle,
       xaxis: { title: 'Date' },
-      yaxis: selectedChartOption === 'deaths' ? { title: 'Number of Deaths' } : { title: 'Magnitude' },
+      yaxis: selectedChartOption === 'deaths' ? { title: 'Number of Deaths' } : { title: 'Injuries' },
       margin: { t: 100, r: 100, b: 150, l: 100 },
       height: 600,
       hoverlabel: {
@@ -213,7 +212,7 @@ function updateVerticalBarChart(selectedCountry) {
 
 
 
-// Update the horizontal bar chart based on the current state (deaths or magnitudes).
+// Update the horizontal bar chart based on the current state (deaths or injuries).
 function updateHorizontalBarChart(selectedCountry) {
   // Check if earthquakeData is defined.
   if (earthquakeData) {
